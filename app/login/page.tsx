@@ -1,38 +1,37 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { Bebas_Neue, Poppins } from "next/font/google";
-import EmailIcon from "@/public/assets/clientIcons/emailIcon";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
+import { CredentialLogIn, GoogleLogInBtn } from "../components/auth/authBtns";
+import { useSession } from "next-auth/react";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState<String | null>(null);
-  const [successMessage, setSuccessMessage] = useState<String | null>(null);
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [errorMessage, setErrorMessage] = useState<String | null>(null);
+  // const [successMessage, setSuccessMessage] = useState<String | null>(null);
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleSubmit = async (event: { preventDefault: () => void }) => {
-    event.preventDefault();
+  // const handleSubmit = async (event: { preventDefault: () => void }) => {
+  //   event.preventDefault();
 
-    if (username === "user" && password === "password") {
-      // Login successful
-      setSuccessMessage("Tama eyyy! Lezzgooo");
-      alert("Nays wan");
-      setErrorMessage(null);
-      router.push("/dashboard");
-    } else {
-      setErrorMessage("Bobo amputa! Mali yung username o password mo!!");
-      alert("Tangina! BOBO mo naman, Mali! Galit ako sayo!");
-      setSuccessMessage(null);
-    }
-  };
+  //   if (username === "user" && password === "password") {
+  //     // Login successful
+  //     setSuccessMessage("Tama eyyy! Lezzgooo");
+  //     alert("Nays wan");
+  //     setErrorMessage(null);
+  //     router.push("/dashboard");
+  //   } else {
+  //     setErrorMessage("Bobo amputa! Mali yung username o password mo!!");
+  //     alert("Tangina! BOBO mo naman, Mali! Galit ako sayo!");
+  //     setSuccessMessage(null);
+  //   }
+  // };
 
   return (
     <>
@@ -88,14 +87,7 @@ const LoginPage = () => {
 
             {/* Login Options */}
             <div className="flex flex-col w-full mt-6 gap-7">
-              <button className="flex border border-[#575757] w-full justify-center items-center gap-6 py-3 rounded-lg">
-                <span className="w-5">
-                  <img src="/assets/images/google.svg" alt="Google Logo" />
-                </span>
-                <span className={"text-[#444444] " + poppSemi.className}>
-                  Continue with Google
-                </span>
-              </button>
+              <GoogleLogInBtn />
               {/* "OR" partition */}
               <div className="flex w-full gap-3 items-center">
                 <span className="bg-[#888888] grow h-[1px]" />
@@ -105,57 +97,8 @@ const LoginPage = () => {
                 <span className="bg-[#888888] grow h-[1px]" />
               </div>
               {/* By Email */}
-              <div className="flex flex-col gap-4">
-                {/* Email */}
-                <div className="w-full relative">
-                  <input
-                    className={
-                      "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-                      popp.className
-                    }
-                    type="text"
-                    name="Email"
-                    id="Email"
-                    placeholder="john.doe@example.com"
-                  />
-                  <label
-                    htmlFor="Email"
-                    className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-                  >
-                    <EmailIcon hex="#575757" />
-                  </label>
-                </div>
-                {/* Password */}
-                <div className="w-full relative">
-                  <input
-                    className={
-                      "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-                      popp.className
-                    }
-                    type="password"
-                    name="Email"
-                    id="Email"
-                    placeholder="************"
-                  />
-                  <label
-                    htmlFor="Email"
-                    className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-                  >
-                    <EmailIcon hex="#575757" />
-                  </label>
-                </div>
-                {/* Submit */}
-                <button
-                  className={
-                    "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
-                    poppSemi.className
-                  }
-                >
-                  LOG IN WITH EMAIL
-                </button>
-              </div>
+              <CredentialLogIn />
             </div>
-
             {/* Sign In */}
             <div className="flex gap-2 items-center mt-3 ">
               <span className={"text-sm " + popp.className}>
