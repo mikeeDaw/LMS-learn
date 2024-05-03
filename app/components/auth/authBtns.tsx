@@ -2,18 +2,16 @@
 
 import React from "react";
 import { Poppins } from "next/font/google";
-import { useSession } from "next-auth/react";
 import EmailIcon from "@/public/assets/clientIcons/emailIcon";
-import { handleIn } from "@/app/_lib/authFunc";
+
 
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const GoogleLogInBtn = () => {
-  const sesh = useSession();
-  console.log(sesh);
+
   const handleClick = () => {
-    handleIn("google", "/dashboard");
+
   };
   return (
     <button
@@ -32,7 +30,7 @@ const GoogleLogInBtn = () => {
 
 const CredentialLogIn = () => {
   const handleClick = () => {
-    handleIn("credentials", "/dashboard");
+
   };
   return (
     <div className="flex flex-col gap-4">

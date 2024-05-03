@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
 import { CredentialLogIn, GoogleLogInBtn } from "../components/auth/authBtns";
-import { useSession } from "next-auth/react";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });

@@ -1,5 +1,4 @@
 import { Bebas_Neue, Poppins } from "next/font/google";
-import { getSession, signOut, useSession } from "next-auth/react";
 import DashNavi from "../components/navigation/dashNav";
 import SearchIcon from "@/public/assets/navIcons/SearchIcon";
 import ListIcon from "@/public/assets/dashIcons/listIcon";
@@ -9,15 +8,13 @@ import SortIcon from "@/public/assets/navIcons/SortIcon";
 import CourseCard from "./components/courseCard";
 import { useRouter } from "next/navigation";
 import { SignOutBtn } from "./components/DashButtons";
-import { sessionVal } from "../_lib/sessionFunc";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const Dashboard = () => {
-  const sesh2 = sessionVal();
-  console.log("XXX", sesh2);
+
   return (
     <>
       <div className="bg-white min-h-screen">

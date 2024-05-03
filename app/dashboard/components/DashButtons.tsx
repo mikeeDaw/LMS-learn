@@ -1,12 +1,8 @@
 "use client";
-import { handleOut } from "@/app/_lib/authFunc";
-import { signOut, useSession } from "next-auth/react";
 import React from "react";
 
 const SignOutBtn = () => {
-  const handleClick = () => {
-    handleOut("/login");
-  };
+  const handleClick = () => {};
   //   const sesh = useSession();
   //   console.log("XX");
   return (
