@@ -34,7 +34,10 @@ const CourseCard: React.FC<Props> = ({
       <div className="flex gap-2">
         {tags.map((tag) => {
           return (
-            <span className="text-sm px-3 py-1 bg-[#424242] text-[#DADADA] rounded-full">
+            <span
+              className="text-sm px-3 py-1 bg-[#424242] text-[#DADADA] rounded-full"
+              key={Math.floor(Math.random() * 99999)}
+            >
               {tag}
             </span>
           );

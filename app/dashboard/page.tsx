@@ -1,5 +1,5 @@
-import React from "react";
 import { Bebas_Neue, Poppins } from "next/font/google";
+import { getSession, signOut, useSession } from "next-auth/react";
 import DashNavi from "../components/navigation/dashNav";
 import SearchIcon from "@/public/assets/navIcons/SearchIcon";
 import ListIcon from "@/public/assets/dashIcons/listIcon";
@@ -7,12 +7,17 @@ import GridIcon from "@/public/assets/dashIcons/gridIcon";
 import DownArrow from "@/public/assets/dashIcons/downArr";
 import SortIcon from "@/public/assets/navIcons/SortIcon";
 import CourseCard from "./components/courseCard";
+import { useRouter } from "next/navigation";
+import { SignOutBtn } from "./components/DashButtons";
+import { sessionVal } from "../_lib/sessionFunc";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const Dashboard = () => {
+  const sesh2 = sessionVal();
+  console.log("XXX", sesh2);
   return (
     <>
       <div className="bg-white min-h-screen">
@@ -39,13 +44,14 @@ const Dashboard = () => {
               </label>
             </div>
             {/* Profile Stuff */}
-            <div className="flex flex-row gap-3">
+            <div className="flex flex-row gap-3 items-center">
               <span className="bg-white rounded-full flex justify-center items-center w-[35px] h-[35px] text-black">
                 B
               </span>
               <span className="bg-white rounded-full flex justify-center items-center w-[35px] h-[35px] text-black">
                 N
               </span>
+              <SignOutBtn />
             </div>
           </div>
           {/* Section Header */}
@@ -155,6 +161,7 @@ const Dashboard = () => {
               tags={["UI/UX Design", "Published"]}
               students={1938}
               diff="Beginner"
+              key={"C1"}
             />
             <CourseCard
               cardWidth="w-[32%]"
@@ -163,6 +170,7 @@ const Dashboard = () => {
               tags={["Database", "CRUD Operations"]}
               students={3568}
               diff="Beginner"
+              key={"C2"}
             />
             <CourseCard
               cardWidth="w-[32%]"
@@ -171,6 +179,7 @@ const Dashboard = () => {
               tags={["Database", "CRUD Operations"]}
               students={3568}
               diff="Beginner"
+              key={"C3"}
             />
             <CourseCard
               cardWidth="w-[32%]"
@@ -179,6 +188,7 @@ const Dashboard = () => {
               tags={["Database", "CRUD Operations"]}
               students={3568}
               diff="Beginner"
+              key={"C4"}
             />
           </div>
         </div>
