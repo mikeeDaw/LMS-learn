@@ -1,20 +1,21 @@
 import { Bebas_Neue, Poppins } from "next/font/google";
-import DashNavi from "../components/navigation/dashNav";
+import DashNavi from "../../components/navigation/dashNav";
 import SearchIcon from "@/public/assets/navIcons/SearchIcon";
 import ListIcon from "@/public/assets/dashIcons/listIcon";
 import GridIcon from "@/public/assets/dashIcons/gridIcon";
 import DownArrow from "@/public/assets/dashIcons/downArr";
 import SortIcon from "@/public/assets/navIcons/SortIcon";
-import CourseCard from "./components/courseCard";
-import { useRouter } from "next/navigation";
-import { SignOutBtn } from "./components/DashButtons";
+import CourseCard from "../../dashboard/components/courseCard";
+import { SignOutBtn } from "../../dashboard/components/DashButtons";
+import { auth } from "@/auth";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
-const Dashboard = () => {
-
+const Dashboard = async () => {
+  const session = await auth();
+  console.log("Sesh:", session);
   return (
     <>
       <div className="bg-white min-h-screen">

@@ -3,6 +3,7 @@ import { Bebas_Neue, Poppins } from "next/font/google";
 import EmailIcon from "@/public/assets/clientIcons/emailIcon";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
 import PassIcon from "@/public/assets/clientIcons/passIcon";
+import { RegisterUser } from "../components/auth/authBtns";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
@@ -51,14 +52,16 @@ const Register = () => {
             <div className="flex flex-col gap-2 mt-10">
               <span
                 className={
-                  "text-5xl text-[#509d44] text-start w-full " + bebas.className
+                  "text-5xl text-center text-[#509d44] w-full " +
+                  bebas.className
                 }
               >
-                Register
+                Start Learning!
               </span>
               <span
                 className={
-                  "text-base text-start text-[#575757] w-full " + popp.className
+                  "text-base text-center text-[#575757] w-full " +
+                  popp.className
                 }
               >
                 We're thrilled that you're taking a first step towards growth!
@@ -77,130 +80,7 @@ const Register = () => {
                 <span className="bg-[#888888] grow h-[1px]" />
               </div>
 
-              <div className="flex flex-col gap-4">
-                {/* Name */}
-                <div className="flex gap-4">
-                  {/* First Name */}
-                  <div className=" w-1/2 relative">
-                    <input
-                      className={
-                        "border w-full border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
-                        popp.className
-                      }
-                      type="text"
-                      name="Fname"
-                      id="Fname"
-                      placeholder="First Name"
-                    />
-                    <label
-                      htmlFor="Fname"
-                      className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-                    >
-                      <EmailIcon hex="#575757" />
-                    </label>
-                  </div>
-                  {/* Last Name */}
-                  <div className="w-1/2 relative">
-                    <input
-                      className={
-                        "border w-full border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
-                        popp.className
-                      }
-                      type="text"
-                      name="Lname"
-                      id="Lname"
-                      placeholder="Last Name"
-                    />
-                    <label
-                      htmlFor="Lname"
-                      className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-                    >
-                      <EmailIcon hex="#575757" />
-                    </label>
-                  </div>
-                </div>
-                {/* Email */}
-                <div className="w-full relative">
-                  <input
-                    className={
-                      "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-                      popp.className
-                    }
-                    type="text"
-                    name="Email"
-                    id="Email"
-                    placeholder="Email"
-                  />
-                  <label
-                    htmlFor="Email"
-                    className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-                  >
-                    <EmailIcon hex="#575757" />
-                  </label>
-                </div>
-                {/* Password */}
-                <div className="w-full relative">
-                  <input
-                    className={
-                      "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-                      popp.className
-                    }
-                    type="password"
-                    name="passy"
-                    id="passy"
-                    placeholder="Password"
-                  />
-                  <label
-                    htmlFor="passy"
-                    className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-                  >
-                    <PassIcon hex="#575757" />
-                  </label>
-                </div>
-                {/* Conf Password */}
-                <div className="w-full relative">
-                  <input
-                    className={
-                      "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-                      popp.className
-                    }
-                    type="password"
-                    name="ConfPass"
-                    id="ConfPass"
-                    placeholder="Confirm Password"
-                  />
-                  <label
-                    htmlFor="ConfPass"
-                    className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-                  >
-                    <PassIcon hex="#575757" />
-                  </label>
-                </div>
-                {/* Terms and Conditions */}
-                <div className="flex gap-3 items-center h-fit mt-4">
-                  <input
-                    className="w-4 h-4 accent-[#3e9e30] "
-                    type="checkbox"
-                    name="Accept"
-                    id="Accept"
-                  />
-                  <span className={"text-sm " + popp.className}>
-                    I Accept the{" "}
-                    <span className="cursor-pointer text-[#509d44]">
-                      Terms and Conditions
-                    </span>
-                  </span>
-                </div>
-                {/* Submit */}
-                <button
-                  className={
-                    "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
-                    poppSemi.className
-                  }
-                >
-                  SIGN UP
-                </button>
-              </div>
+              <RegisterUser />
             </div>
           </div>
         </div>

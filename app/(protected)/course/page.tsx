@@ -1,10 +1,10 @@
 import React from "react";
-import DashNavi from "../components/navigation/dashNav";
+import DashNavi from "../../components/navigation/dashNav";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
 import RightArr from "@/public/assets/dashIcons/rightArr";
-import Chapters from "../components/course/chapters";
-import CourseInclude from "../components/course/courseInclude";
+import Chapters from "../../components/course/chapters";
+import CourseInclude from "../../components/course/courseInclude";
 import {
   Apple,
   CirclePlay,
@@ -18,7 +18,7 @@ import {
   Star,
   Users,
 } from "lucide-react";
-import Details from "../components/course/details";
+import Details from "../../components/course/details";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });

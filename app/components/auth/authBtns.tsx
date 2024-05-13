@@ -1,17 +1,26 @@
 "use client";
 
-import React from "react";
 import { Poppins } from "next/font/google";
 import EmailIcon from "@/public/assets/clientIcons/emailIcon";
+import { signIn, signOut } from "next-auth/react";
+import { regAction } from "@/app/_actions/register";
+import PassIcon from "@/public/assets/clientIcons/passIcon";
 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema, RegSchema } from "@/app/_schema";
+import * as z from "zod";
+import FormErr from "./form-error";
+import { logAction } from "@/app/_actions/login";
+import { useState, useTransition } from "react";
+import { Sparkle, Sparkles } from "lucide-react";
 
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const GoogleLogInBtn = () => {
-
   const handleClick = () => {
-
+    signIn("google");
   };
   return (
     <button
@@ -28,61 +37,271 @@ const GoogleLogInBtn = () => {
   );
 };
 
+// Login by Email form for Users.
 const CredentialLogIn = () => {
-  const handleClick = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
+  const [pending, startTransition] = useTransition();
+  const [logErr, setLogErr] = useState(false);
+  const handleClick = (values: z.infer<typeof LoginSchema>) => {
+    startTransition(() => {
+      logAction(values).then((result) => {
+        console.log(result);
+        setLogErr(result);
+      });
+    });
   };
+
   return (
-    <div className="flex flex-col gap-4">
-      {/* Email */}
-      <div className="w-full relative">
-        <input
-          className={
-            "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-            popp.className
-          }
-          type="text"
-          name="Email"
-          id="Email"
-          placeholder="john.doe@example.com"
-        />
-        <label
-          htmlFor="Email"
-          className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-        >
-          <EmailIcon hex="#575757" />
-        </label>
-      </div>
-      {/* Password */}
-      <div className="w-full relative">
-        <input
-          className={
-            "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-            popp.className
-          }
-          type="password"
-          name="Email"
-          id="Email"
-          placeholder="************"
-        />
-        <label
-          htmlFor="Email"
-          className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
-        >
-          <EmailIcon hex="#575757" />
-        </label>
-      </div>
-      {/* Submit */}
-      <button
-        className={
-          "bg-[#6bc85d] w-full py-3 rounded-lg text-white " + poppSemi.className
-        }
-        onClick={handleClick}
+    <div className="flex flex-col">
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={handleSubmit(handleClick)}
       >
-        LOG IN WITH EMAIL
-      </button>
+        {/* Email */}
+        <div className="w-full relative">
+          <input
+            className={
+              "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+              (logErr
+                ? "border-[#ec7070] "
+                : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+              popp.className
+            }
+            type="text"
+            id="Email"
+            placeholder="john.doe@example.com"
+            autoComplete="off"
+            {...register("email", {})}
+            disabled={pending}
+          />
+          <label
+            htmlFor="Email"
+            className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+          >
+            <EmailIcon hex={logErr ? "#ec7070" : "#575757"} />
+          </label>
+        </div>
+        {/* Password */}
+        <div className="w-full relative">
+          <input
+            className={
+              "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+              (logErr
+                ? "border-[#ec7070] "
+                : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+              popp.className
+            }
+            type="password"
+            disabled={pending}
+            id="Password"
+            placeholder="************"
+            {...register("password", {})}
+          />
+          <label
+            htmlFor="Email"
+            className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+          >
+            <PassIcon hex={logErr ? "#ec7070" : "#575757"} />
+          </label>
+        </div>
+        {/* Submit */}
+        <button
+          className={
+            "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
+            poppSemi.className
+          }
+          onClick={handleSubmit(handleClick)}
+          type="submit"
+          disabled={pending}
+        >
+          LOG IN WITH EMAIL
+        </button>
+      </form>
     </div>
   );
 };
 
-export { GoogleLogInBtn, CredentialLogIn };
+// Create a User account form.
+const RegisterUser = () => {
+  const [pending, startTransition] = useTransition();
+  const [logErr, setLogErr] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof RegSchema>>({
+    resolver: zodResolver(RegSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      fName: "",
+      lName: "",
+      confPass: "",
+    },
+  });
+  const handleClick = (values: z.infer<typeof RegSchema>) => {
+    startTransition(() => {
+      regAction(values).then((result) => {
+        console.log(result);
+        setLogErr(result);
+      });
+    });
+  };
+  return (
+    <>
+      <div className="flex ">
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={handleSubmit(handleClick)}
+        >
+          {/* Name */}
+          <div className="flex gap-4">
+            {/* First Name */}
+            <div className=" w-1/2 relative">
+              <input
+                className={
+                  "border w-full border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
+                  popp.className
+                }
+                type="text"
+                id="Fname"
+                placeholder="First Name"
+                {...register("fName", {})}
+                disabled={pending}
+                autoComplete="off"
+              />
+              <label
+                htmlFor="Fname"
+                className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+              >
+                <Sparkle size={20} className="text-[#575757]" />
+              </label>
+            </div>
+            {/* Last Name */}
+            <div className="w-1/2 relative">
+              <input
+                className={
+                  "border w-full border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
+                  popp.className
+                }
+                type="text"
+                id="Lname"
+                placeholder="Last Name"
+                {...register("lName", {})}
+                disabled={pending}
+                autoComplete="off"
+              />
+              <label
+                htmlFor="Lname"
+                className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+              >
+                <Sparkles size={20} className="text-[#575757]" />
+              </label>
+            </div>
+          </div>
+          {/* Email */}
+          <div className="w-full relative">
+            <input
+              className={
+                "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                popp.className
+              }
+              type="text"
+              id="Email"
+              placeholder="Email"
+              {...register("email", {})}
+              disabled={pending}
+              autoComplete="off"
+            />
+            <label
+              htmlFor="Email"
+              className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+            >
+              <EmailIcon hex="#575757" />
+            </label>
+          </div>
+          {/* Password */}
+          <div className="w-full relative">
+            <input
+              className={
+                "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                popp.className
+              }
+              type="password"
+              id="passy"
+              placeholder="Password"
+              {...register("password", {})}
+              disabled={pending}
+              autoComplete="off"
+            />
+            <label
+              htmlFor="passy"
+              className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+            >
+              <PassIcon hex="#575757" />
+            </label>
+          </div>
+          {/* Conf Password */}
+          <div className="w-full relative">
+            <input
+              className={
+                "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                popp.className
+              }
+              type="password"
+              placeholder="Confirm Password"
+              {...register("confPass", {})}
+              disabled={pending}
+              autoComplete="off"
+            />
+            <label
+              htmlFor="ConfPass"
+              className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+            >
+              <PassIcon hex="#575757" />
+            </label>
+          </div>
+          {/* Terms and Conditions */}
+          <div className="flex gap-3 items-center h-fit mt-4">
+            <input
+              className="w-4 h-4 accent-[#3e9e30] "
+              type="checkbox"
+              name="Accept"
+              id="Accept"
+            />
+            <span className={"text-sm " + popp.className}>
+              I Accept the{" "}
+              <span className="cursor-pointer text-[#509d44]">
+                Terms and Conditions
+              </span>
+            </span>
+          </div>
+          {/* Submit */}
+          <button
+            className={
+              "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
+              poppSemi.className
+            }
+            onClick={handleSubmit(handleClick)}
+            type="submit"
+          >
+            SIGN UP
+          </button>
+        </form>
+      </div>
+    </>
+  );
+};
+
+export { GoogleLogInBtn, CredentialLogIn, RegisterUser };
