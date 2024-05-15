@@ -2,7 +2,6 @@
 
 import { Poppins } from "next/font/google";
 import EmailIcon from "@/public/assets/clientIcons/emailIcon";
-import { signIn, signOut } from "next-auth/react";
 import { regAction } from "@/app/_actions/register";
 import PassIcon from "@/public/assets/clientIcons/passIcon";
 
@@ -11,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, RegSchema } from "@/app/_schema";
 import * as z from "zod";
 import FormErr from "./form-error";
-import { logAction } from "@/app/_actions/login";
+import { googleAction, logAction } from "@/app/_actions/login";
 import { useState, useTransition } from "react";
 import { Sparkle, Sparkles } from "lucide-react";
 
@@ -20,7 +19,7 @@ const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const GoogleLogInBtn = () => {
   const handleClick = () => {
-    signIn("google");
+    googleAction();
   };
   return (
     <button
@@ -50,22 +49,22 @@ const CredentialLogIn = () => {
       password: "",
     },
   });
-
+  const xxx = () => {
+    console.log(errors);
+  };
   const [pending, startTransition] = useTransition();
   const [logErr, setLogErr] = useState(false);
   const handleClick = (values: z.infer<typeof LoginSchema>) => {
-    startTransition(() => {
-      logAction(values).then((result) => {
-        console.log(result);
-        setLogErr(result);
+    startTransition(async () => {
+      await logAction(values).then((result) => {
+        setLogErr(result.error);
       });
     });
   };
-
   return (
     <div className="flex flex-col">
       <form
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-5"
         onSubmit={handleSubmit(handleClick)}
       >
         {/* Email */}
@@ -73,7 +72,7 @@ const CredentialLogIn = () => {
           <input
             className={
               "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-              (logErr
+              (logErr || errors.email != undefined
                 ? "border-[#ec7070] "
                 : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
               popp.className
@@ -89,7 +88,9 @@ const CredentialLogIn = () => {
             htmlFor="Email"
             className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
           >
-            <EmailIcon hex={logErr ? "#ec7070" : "#575757"} />
+            <EmailIcon
+              hex={logErr || errors.email != undefined ? "#ec7070" : "#575757"}
+            />
           </label>
         </div>
         {/* Password */}
@@ -97,7 +98,7 @@ const CredentialLogIn = () => {
           <input
             className={
               "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-              (logErr
+              (logErr || errors.password != undefined
                 ? "border-[#ec7070] "
                 : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
               popp.className
@@ -112,7 +113,11 @@ const CredentialLogIn = () => {
             htmlFor="Email"
             className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
           >
-            <PassIcon hex={logErr ? "#ec7070" : "#575757"} />
+            <PassIcon
+              hex={
+                logErr || errors.password != undefined ? "#ec7070" : "#575757"
+              }
+            />
           </label>
         </div>
         {/* Submit */}
@@ -121,7 +126,7 @@ const CredentialLogIn = () => {
             "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
             poppSemi.className
           }
-          onClick={handleSubmit(handleClick)}
+          onClick={xxx}
           type="submit"
           disabled={pending}
         >
@@ -150,11 +155,15 @@ const RegisterUser = () => {
       confPass: "",
     },
   });
+  const xxx = () => {
+    console.log(errors);
+  };
   const handleClick = (values: z.infer<typeof RegSchema>) => {
+    const result = RegSchema.safeParse(values);
     startTransition(() => {
       regAction(values).then((result) => {
         console.log(result);
-        setLogErr(result);
+        setLogErr(result.error);
       });
     });
   };
@@ -162,7 +171,7 @@ const RegisterUser = () => {
     <>
       <div className="flex ">
         <form
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-5"
           onSubmit={handleSubmit(handleClick)}
         >
           {/* Name */}
@@ -171,7 +180,10 @@ const RegisterUser = () => {
             <div className=" w-1/2 relative">
               <input
                 className={
-                  "border w-full border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
+                  "border w-full py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
+                  (errors.fName != undefined
+                    ? "border-[#ec7070] "
+                    : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                   popp.className
                 }
                 type="text"
@@ -185,14 +197,24 @@ const RegisterUser = () => {
                 htmlFor="Fname"
                 className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
               >
-                <Sparkle size={20} className="text-[#575757]" />
+                <Sparkle
+                  size={20}
+                  className={
+                    errors.fName != undefined
+                      ? "text-[#ec7070]"
+                      : "text-[#575757]"
+                  }
+                />
               </label>
             </div>
             {/* Last Name */}
             <div className="w-1/2 relative">
               <input
                 className={
-                  "border w-full border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
+                  "border w-full py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
+                  (errors.lName != undefined
+                    ? "border-[#ec7070] "
+                    : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                   popp.className
                 }
                 type="text"
@@ -206,7 +228,14 @@ const RegisterUser = () => {
                 htmlFor="Lname"
                 className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
               >
-                <Sparkles size={20} className="text-[#575757]" />
+                <Sparkles
+                  size={20}
+                  className={
+                    errors.lName != undefined
+                      ? "text-[#ec7070]"
+                      : "text-[#575757]"
+                  }
+                />
               </label>
             </div>
           </div>
@@ -214,7 +243,10 @@ const RegisterUser = () => {
           <div className="w-full relative">
             <input
               className={
-                "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                (errors.email != undefined
+                  ? "border-[#ec7070] "
+                  : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                 popp.className
               }
               type="text"
@@ -228,14 +260,19 @@ const RegisterUser = () => {
               htmlFor="Email"
               className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
             >
-              <EmailIcon hex="#575757" />
+              <EmailIcon
+                hex={errors.email != undefined ? "#ec7070" : "#575757"}
+              />
             </label>
           </div>
           {/* Password */}
           <div className="w-full relative">
             <input
               className={
-                "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                (errors.password != undefined || errors.confPass != undefined
+                  ? "border-[#ec7070] "
+                  : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                 popp.className
               }
               type="password"
@@ -249,14 +286,19 @@ const RegisterUser = () => {
               htmlFor="passy"
               className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
             >
-              <PassIcon hex="#575757" />
+              <PassIcon
+                hex={errors.password != undefined ? "#ec7070" : "#575757"}
+              />
             </label>
           </div>
           {/* Conf Password */}
           <div className="w-full relative">
             <input
               className={
-                "border border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                (errors.confPass != undefined
+                  ? "border-[#ec7070] "
+                  : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                 popp.className
               }
               type="password"
@@ -269,7 +311,9 @@ const RegisterUser = () => {
               htmlFor="ConfPass"
               className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
             >
-              <PassIcon hex="#575757" />
+              <PassIcon
+                hex={errors.password != undefined ? "#ec7070" : "#575757"}
+              />
             </label>
           </div>
           {/* Terms and Conditions */}
@@ -293,7 +337,7 @@ const RegisterUser = () => {
               "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
               poppSemi.className
             }
-            onClick={handleSubmit(handleClick)}
+            onClick={xxx}
             type="submit"
           >
             SIGN UP

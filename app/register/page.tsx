@@ -14,7 +14,7 @@ const Register = () => {
     <>
       <div className="bg-white w-screen h-screen flex">
         {/* Lofi Girl Background */}
-        <div className="w-4/6 h-full absolute top-0 right-0 p-5">
+        <div className="w-4/6 h-full absolute top-0 right-0 p-5 py-8">
           <img
             className="w-full h-full rounded-2xl rounded-tl-[150px]"
             src={"/assets/images/lofi.gif"}
