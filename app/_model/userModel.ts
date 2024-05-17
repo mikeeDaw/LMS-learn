@@ -7,6 +7,7 @@ const userSchema = new Schema({
   lName: { type: String, require: true },
   email: { type: String, require: true, unique: true },
   password: { type: String, require: true },
+  userRole: { type: String, require: true, default: true },
 });
 
 const userModel = mongoose.models?.users || mongoose.model("users", userSchema);

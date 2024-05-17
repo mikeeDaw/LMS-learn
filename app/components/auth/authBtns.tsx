@@ -1,25 +1,30 @@
 "use client";
 
-import { Poppins } from "next/font/google";
-import EmailIcon from "@/public/assets/clientIcons/emailIcon";
 import { regAction } from "@/app/_actions/register";
+import EmailIcon from "@/public/assets/clientIcons/emailIcon";
 import PassIcon from "@/public/assets/clientIcons/passIcon";
+import { Poppins } from "next/font/google";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { logAction } from "@/app/_actions/login";
 import { LoginSchema, RegSchema } from "@/app/_schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { BadgeCheck, CircleX, Sparkle, Sparkles } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
-import FormErr from "./form-error";
-import { googleAction, logAction } from "@/app/_actions/login";
-import { useState, useTransition } from "react";
-import { Sparkle, Sparkles } from "lucide-react";
 
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
-const GoogleLogInBtn = () => {
+interface TextProp {
+  text: string;
+}
+
+const GoogleLogInBtn: React.FC<TextProp> = ({ text }) => {
   const handleClick = () => {
-    googleAction();
+    signIn("google", { callbackUrl: "/dashboard" });
   };
   return (
     <button
@@ -29,9 +34,7 @@ const GoogleLogInBtn = () => {
       <span className="w-5">
         <img src="/assets/images/google.svg" alt="Google Logo" />
       </span>
-      <span className={"text-[#444444] " + poppSemi.className}>
-        Continue with Google
-      </span>
+      <span className={"text-[#444444] " + poppSemi.className}>{text}</span>
     </button>
   );
 };
@@ -49,18 +52,54 @@ const CredentialLogIn = () => {
       password: "",
     },
   });
-  const xxx = () => {
-    console.log(errors);
-  };
+
   const [pending, startTransition] = useTransition();
   const [logErr, setLogErr] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [passFocus, setPassFocus] = useState(false);
+  const [emailCol, setEmailCol] = useState<string>("");
+  const [passCol, setPassCol] = useState<string>("");
   const handleClick = (values: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
       await logAction(values).then((result) => {
         setLogErr(result.error);
+        console.log(result.error);
+        if (result.error) {
+          toast.error("ERROR!", {
+            description: "Invalid Credentials.",
+            duration: 4000,
+            icon: (
+              <span className="text-red-500 ps-2">
+                <CircleX />
+              </span>
+            ),
+            classNames: {
+              toast: "bg-red-100",
+              title: "ms-4 text-red-500",
+              description: "ms-4 text-[#555555]",
+              icon: "bg-black",
+            },
+          });
+        }
       });
     });
   };
+  // For Icon Color in Input field
+  const iconColor = (onFoc: boolean, errField: any) => {
+    if (onFoc && !(logErr || errField != undefined)) {
+      return "#76d867";
+    } else if (logErr || errField) {
+      return "#f25d5d";
+    } else return "#777777";
+  };
+
+  useEffect(() => {
+    setEmailCol(iconColor(emailFocus, errors.email));
+  }, [emailFocus, errors.email, logErr]);
+  useEffect(() => {
+    setPassCol(iconColor(passFocus, errors.password));
+  }, [passFocus, errors.password, logErr]);
+
   return (
     <div className="flex flex-col">
       <form
@@ -81,16 +120,20 @@ const CredentialLogIn = () => {
             id="Email"
             placeholder="john.doe@example.com"
             autoComplete="off"
-            {...register("email", {})}
+            {...register("email")}
             disabled={pending}
+            onFocus={() => {
+              setEmailFocus(true);
+            }}
+            onBlurCapture={() => {
+              setEmailFocus(false);
+            }}
           />
           <label
             htmlFor="Email"
             className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
           >
-            <EmailIcon
-              hex={logErr || errors.email != undefined ? "#ec7070" : "#575757"}
-            />
+            <EmailIcon hex={emailCol} />
           </label>
         </div>
         {/* Password */}
@@ -107,17 +150,19 @@ const CredentialLogIn = () => {
             disabled={pending}
             id="Password"
             placeholder="************"
-            {...register("password", {})}
+            {...register("password")}
+            onFocus={() => {
+              setPassFocus(true);
+            }}
+            onBlurCapture={() => {
+              setPassFocus(false);
+            }}
           />
           <label
             htmlFor="Email"
             className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
           >
-            <PassIcon
-              hex={
-                logErr || errors.password != undefined ? "#ec7070" : "#575757"
-              }
-            />
+            <PassIcon hex={passCol} />
           </label>
         </div>
         {/* Submit */}
@@ -126,7 +171,6 @@ const CredentialLogIn = () => {
             "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
             poppSemi.className
           }
-          onClick={xxx}
           type="submit"
           disabled={pending}
         >
@@ -141,6 +185,17 @@ const CredentialLogIn = () => {
 const RegisterUser = () => {
   const [pending, startTransition] = useTransition();
   const [logErr, setLogErr] = useState(false);
+  const [fnmFoc, setFnmFoc] = useState(false);
+  const [lnmFoc, setLnmFoc] = useState(false);
+  const [emFoc, setEmFoc] = useState(false);
+  const [passFoc, setPassFoc] = useState(false);
+  const [confFoc, setConfFoc] = useState(false);
+  const [fnmCol, setFnmCol] = useState<string>("575757");
+  const [lnmCol, setLnmCol] = useState<string>("575757");
+  const [emCol, setEmCol] = useState<string>("575757");
+  const [confCol, setConfCol] = useState<string>("575757");
+  const [passCol, setPassCol] = useState<string>("575757");
+  const formRef = useRef<any>();
   const {
     register,
     handleSubmit,
@@ -155,22 +210,75 @@ const RegisterUser = () => {
       confPass: "",
     },
   });
-  const xxx = () => {
-    console.log(errors);
-  };
+
   const handleClick = (values: z.infer<typeof RegSchema>) => {
     const result = RegSchema.safeParse(values);
-    startTransition(() => {
-      regAction(values).then((result) => {
+    startTransition(async () => {
+      await regAction(values).then((result) => {
         console.log(result);
         setLogErr(result.error);
+        if (!result.error) {
+          toast.success("Creation Success!", {
+            description: "Proceed to Login to start learning.",
+            duration: 4000,
+            icon: (
+              <span className="text-emerald-500 ps-2">
+                <BadgeCheck />
+              </span>
+            ),
+            classNames: {
+              description: "ms-4",
+              title: "ms-4 text-emerald-500",
+            },
+          });
+          formRef.current.reset();
+        } else {
+          toast.error("ERROR!", {
+            description: result.msg,
+            duration: 4000,
+            icon: (
+              <span className="text-red-500 ps-2">
+                <CircleX />
+              </span>
+            ),
+            classNames: {
+              toast: "bg-red-100",
+              description: "ms-4",
+              title: "ms-4 text-red-500",
+            },
+          });
+        }
       });
     });
   };
+
+  const iconCol = (focus: boolean, errw: any) => {
+    if (focus && errw == undefined) return "#6bc85d";
+    else if (errw != undefined) return "#ec7070";
+    else return "#575757";
+  };
+
+  // Use Effects for Input form error fx
+  useEffect(() => {
+    setFnmCol(iconCol(fnmFoc, errors.fName));
+  }, [fnmFoc, errors.fName]);
+  useEffect(() => {
+    setLnmCol(iconCol(lnmFoc, errors.lName));
+  }, [lnmFoc, errors.lName]);
+  useEffect(() => {
+    setEmCol(iconCol(emFoc, errors.email));
+  }, [emFoc, errors.email]);
+  useEffect(() => {
+    setPassCol(iconCol(passFoc, errors.password));
+  }, [passFoc, errors.password]);
+  useEffect(() => {
+    setConfCol(iconCol(confFoc, errors.confPass));
+  }, [confFoc, errors.confPass]);
   return (
     <>
       <div className="flex ">
         <form
+          ref={formRef}
           className="flex flex-col gap-5"
           onSubmit={handleSubmit(handleClick)}
         >
@@ -188,6 +296,10 @@ const RegisterUser = () => {
                 }
                 type="text"
                 id="Fname"
+                onFocus={() => setFnmFoc(true)}
+                onBlurCapture={() => {
+                  setFnmFoc(false);
+                }}
                 placeholder="First Name"
                 {...register("fName", {})}
                 disabled={pending}
@@ -197,14 +309,7 @@ const RegisterUser = () => {
                 htmlFor="Fname"
                 className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
               >
-                <Sparkle
-                  size={20}
-                  className={
-                    errors.fName != undefined
-                      ? "text-[#ec7070]"
-                      : "text-[#575757]"
-                  }
-                />
+                <Sparkle size={20} color={fnmCol} />
               </label>
             </div>
             {/* Last Name */}
@@ -219,6 +324,10 @@ const RegisterUser = () => {
                 }
                 type="text"
                 id="Lname"
+                onFocus={() => setLnmFoc(true)}
+                onBlurCapture={() => {
+                  setLnmFoc(false);
+                }}
                 placeholder="Last Name"
                 {...register("lName", {})}
                 disabled={pending}
@@ -228,14 +337,7 @@ const RegisterUser = () => {
                 htmlFor="Lname"
                 className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
               >
-                <Sparkles
-                  size={20}
-                  className={
-                    errors.lName != undefined
-                      ? "text-[#ec7070]"
-                      : "text-[#575757]"
-                  }
-                />
+                <Sparkles size={20} color={lnmCol} />
               </label>
             </div>
           </div>
@@ -252,6 +354,10 @@ const RegisterUser = () => {
               type="text"
               id="Email"
               placeholder="Email"
+              onFocus={() => setEmFoc(true)}
+              onBlurCapture={() => {
+                setEmFoc(false);
+              }}
               {...register("email", {})}
               disabled={pending}
               autoComplete="off"
@@ -260,9 +366,7 @@ const RegisterUser = () => {
               htmlFor="Email"
               className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
             >
-              <EmailIcon
-                hex={errors.email != undefined ? "#ec7070" : "#575757"}
-              />
+              <EmailIcon hex={emCol} />
             </label>
           </div>
           {/* Password */}
@@ -270,7 +374,7 @@ const RegisterUser = () => {
             <input
               className={
                 "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
-                (errors.password != undefined || errors.confPass != undefined
+                (errors.password != undefined
                   ? "border-[#ec7070] "
                   : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                 popp.className
@@ -278,6 +382,10 @@ const RegisterUser = () => {
               type="password"
               id="passy"
               placeholder="Password"
+              onFocus={() => setPassFoc(true)}
+              onBlurCapture={() => {
+                setPassFoc(false);
+              }}
               {...register("password", {})}
               disabled={pending}
               autoComplete="off"
@@ -286,9 +394,7 @@ const RegisterUser = () => {
               htmlFor="passy"
               className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
             >
-              <PassIcon
-                hex={errors.password != undefined ? "#ec7070" : "#575757"}
-              />
+              <PassIcon hex={passCol} />
             </label>
           </div>
           {/* Conf Password */}
@@ -303,6 +409,10 @@ const RegisterUser = () => {
               }
               type="password"
               placeholder="Confirm Password"
+              onFocus={() => setConfFoc(true)}
+              onBlurCapture={() => {
+                setConfFoc(false);
+              }}
               {...register("confPass", {})}
               disabled={pending}
               autoComplete="off"
@@ -311,13 +421,11 @@ const RegisterUser = () => {
               htmlFor="ConfPass"
               className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
             >
-              <PassIcon
-                hex={errors.password != undefined ? "#ec7070" : "#575757"}
-              />
+              <PassIcon hex={confCol} />
             </label>
           </div>
           {/* Terms and Conditions */}
-          <div className="flex gap-3 items-center h-fit mt-4">
+          {/* <div className="flex gap-3 items-center h-fit mt-4">
             <input
               className="w-4 h-4 accent-[#3e9e30] "
               type="checkbox"
@@ -330,14 +438,13 @@ const RegisterUser = () => {
                 Terms and Conditions
               </span>
             </span>
-          </div>
+          </div> */}
           {/* Submit */}
           <button
             className={
               "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
               poppSemi.className
             }
-            onClick={xxx}
             type="submit"
           >
             SIGN UP
@@ -348,4 +455,4 @@ const RegisterUser = () => {
   );
 };
 
-export { GoogleLogInBtn, CredentialLogIn, RegisterUser };
+export { CredentialLogIn, GoogleLogInBtn, RegisterUser };

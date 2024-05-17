@@ -25,9 +25,13 @@ export default {
 
           const passMatch = await bcrypt.compare(password, user.password);
 
-          if (passMatch) return user;
-
-          return null;
+          if (passMatch) {
+            console.log("MATCH: ", user);
+            return user;
+          } else {
+            console.log("hindi match");
+            return null;
+          }
         }
       },
     }),

@@ -3,16 +3,15 @@ import { useRouter } from "next/navigation";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
 import { CredentialLogIn, GoogleLogInBtn } from "../components/auth/authBtns";
-import { auth } from "@/auth";
 import Link from "next/link";
+import { Toaster, toast } from "sonner";
+import BackBtn from "../components/navigation/backBtn";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const LoginPage = async () => {
-  const session = await auth();
-  console.log("Sesh:", session);
   return (
     <>
       <div className="bg-white w-screen h-screen flex">
@@ -39,16 +38,7 @@ const LoginPage = async () => {
             flix
           </span>
           {/* Back Button */}
-          <span
-            className={
-              "text-2xl text-[#333333] pt-8 px-4 absolute top-0 right-3 flex items-center gap-3 cursor-pointer"
-            }
-          >
-            <span className="w-5 translate-y-[-2px]">
-              <BackIcon hex="#333333" />
-            </span>
-            <span className={"" + bebas.className}> Back </span>
-          </span>
+          <BackBtn />
           {/* Content Area */}
           <div className="flex flex-col w-5/6 items-center gap-4 mt-14 px-8 xl:px-6">
             {/* Text Intro */}
@@ -71,7 +61,7 @@ const LoginPage = async () => {
 
             {/* Login Options */}
             <div className="flex flex-col w-full mt-6 gap-7">
-              <GoogleLogInBtn />
+              <GoogleLogInBtn text="Continue with Google" />
               {/* "OR" partition */}
               <div className="flex w-full gap-3 items-center">
                 <span className="bg-[#888888] grow h-[1px]" />
@@ -100,6 +90,11 @@ const LoginPage = async () => {
               </Link>
             </div>
           </div>
+
+          <Toaster
+            position="bottom-left"
+            toastOptions={{ className: "w-3/4" }}
+          />
         </div>
       </div>
     </>

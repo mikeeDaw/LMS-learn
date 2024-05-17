@@ -13,9 +13,14 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLogged = !!req.auth;
 
+  const isAuthPrefix = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  // console.log("middle", isPublicRoute, isAuthRoute, "Logged:", isLogged);
 
+  if (isAuthPrefix) {
+    return;
+  }
   if (isAuthRoute) {
     if (isLogged) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));

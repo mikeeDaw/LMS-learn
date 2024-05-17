@@ -21,8 +21,6 @@ export const regAction = async (values: z.infer<typeof RegSchema>) => {
 
   const existingUsr = await userModel.findOne({ email: email });
 
-  console.log(existingUsr, !existingUsr);
-
   if (existingUsr) {
     return { error: true, msg: "Email is Already in Use." };
   }
@@ -41,6 +39,7 @@ export const regAction = async (values: z.infer<typeof RegSchema>) => {
       lName: lName,
       email: email,
       password: hashPass,
+      userRole: "USER",
     });
     console.log("tumuloy");
   } catch (error) {

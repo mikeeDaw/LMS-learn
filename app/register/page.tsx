@@ -3,7 +3,9 @@ import { Bebas_Neue, Poppins } from "next/font/google";
 import EmailIcon from "@/public/assets/clientIcons/emailIcon";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
 import PassIcon from "@/public/assets/clientIcons/passIcon";
-import { RegisterUser } from "../components/auth/authBtns";
+import { GoogleLogInBtn, RegisterUser } from "../components/auth/authBtns";
+import { Toaster } from "sonner";
+import BackBtn from "../components/navigation/backBtn";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
@@ -36,18 +38,9 @@ const Register = () => {
             flix
           </span>
           {/* Back Button */}
-          <span
-            className={
-              "text-2xl text-[#333333] pt-8 px-4 absolute top-0 right-3 flex items-center gap-3 cursor-pointer"
-            }
-          >
-            <span className="w-5 translate-y-[-2px]">
-              <BackIcon hex="#333333" />
-            </span>
-            <span className={"" + bebas.className}> Back </span>
-          </span>
+          <BackBtn />
           {/* Content Area */}
-          <div className="flex flex-col w-5/6 items-center gap-4 px-8 xl:px-6">
+          <div className="flex flex-col w-5/6 items-center gap-4 px-8 xl:px-6 relative">
             {/* Text Intro */}
             <div className="flex flex-col gap-2 mt-10">
               <span
@@ -69,8 +62,9 @@ const Register = () => {
               </span>
             </div>
 
-            {/* Login Options */}
+            {/* Create Account */}
             <div className="flex flex-col w-full mt-3 gap-7">
+              <GoogleLogInBtn text="Sign Up with Google" />
               {/* "Create" partition */}
               <div className="flex w-full gap-3 items-center">
                 <span className="bg-[#888888] grow h-[1px]" />
@@ -83,6 +77,10 @@ const Register = () => {
               <RegisterUser />
             </div>
           </div>
+          <Toaster
+            position="bottom-left"
+            toastOptions={{ className: "w-3/4" }}
+          />
         </div>
       </div>
     </>

@@ -6,8 +6,8 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
-export const googleAction = () => {
-  signIn("google", { redirectTo: "/dashboard" });
+export const googleAction = async () => {
+  await signIn("google", { redirectTo: "/" });
 };
 
 export const logAction = async (values: z.infer<typeof LoginSchema>) => {
@@ -26,7 +26,7 @@ export const logAction = async (values: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: "/dashboard",
     });
   } catch (error) {
     console.log(error);
