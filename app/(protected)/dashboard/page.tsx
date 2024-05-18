@@ -43,7 +43,7 @@ const Dashboard = async () => {
             <div className="flex gap-5">
               {/* Display View */}
               <div className="flex flex-row">
-                <div className="bg-[#272727] h-full rounded-full flex flex-row gap-1 items-center">
+                <div className="bg-[#888888] h-full rounded-full flex flex-row gap-1 items-center">
                   <span className="w-9 p-2 rounded-full">
                     <ListIcon hex="#FFF" />
                   </span>

@@ -29,6 +29,14 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
+.pill:hover .pillCir2 {
+  @apply right-[-10%] w-[300%];
+}
+
+.pill:hover * {
+  @apply text-black;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

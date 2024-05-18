@@ -74,7 +74,7 @@ const NavigationBar = () => {
                     (expand ? " " : " w-0 h-0")
                   }
                 >
-                  Anthony Ogag
+                  Jack Stone
                 </span>
                 <span
                   className={
@@ -82,7 +82,7 @@ const NavigationBar = () => {
                     (expand ? "" : "absolute w-0 h-0")
                   }
                 >
-                  Master
+                  Student
                 </span>
               </div>
             </div>
@@ -91,13 +91,13 @@ const NavigationBar = () => {
           {/* Analytics */}
           <div
             className={
-              "flex flex-col border-b px-4 pb-8 border-[#8888887F] " +
-              (expand ? "gap-5" : "gap-7")
+              "flex flex-col border-b pb-8 border-[#8888887F] " +
+              (expand ? "gap-2" : "gap-4")
             }
           >
             <span
               className={
-                "text-lg translate-y-1 overflow-hidden text-nowrap " +
+                "text-lg translate-y-1 mb-2 px-4 overflow-hidden text-nowrap " +
                 bebas.className +
                 (expand ? "" : " w-0 h-0")
               }
@@ -119,13 +119,13 @@ const NavigationBar = () => {
           {/* Application */}
           <div
             className={
-              "flex flex-col border-b px-4 pb-8 border-[#8888887F] " +
-              (expand ? "gap-5" : "gap-7")
+              "flex flex-col border-b pb-8 border-[#8888887F] " +
+              (expand ? "gap-2" : "gap-4")
             }
           >
             <span
               className={
-                "text-lg translate-y-1 overflow-hidden text-nowrap " +
+                "text-lg translate-y-1 mb-2 px-4 overflow-hidden text-nowrap " +
                 bebas.className +
                 (expand ? "" : " w-0 h-0")
               }

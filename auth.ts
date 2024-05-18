@@ -3,7 +3,7 @@ import authConfig from "./auth.config";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "./app/_lib/db";
 import { connectToDb } from "./app/_lib/mongoose";
-import { userModel } from "./app/_model/userModel";
+import { createUser, userModel } from "./app/_model/userModel";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
@@ -12,16 +12,21 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       console.log("Account: ", account);
       console.log("Userxxx:", user);
       if (account && account.provider === "google") {
-        if (!user.hasOwnProperty("userRole")) {
-          await userModel.findByIdAndUpdate(
-            { _id: user.id },
-            {
-              $set: { userRole: "USER" },
-            },
-            { strict: false }
-          );
-        } else {
-          console.log("hindi ka na bago");
+        const theUser = await userModel.findOne({ email: user.email });
+        if (theUser) {
+          if (!user.hasOwnProperty("userRole")) {
+            await userModel.findOneAndUpdate(
+              { email: user.email },
+              {
+                $set: { userRole: "USER" },
+              },
+              { strict: false }
+            );
+            return true;
+          } else {
+            console.log("hindi ka na bago");
+            return true;
+          }
         }
       }
       return true;

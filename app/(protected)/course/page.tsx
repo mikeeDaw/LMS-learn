@@ -30,7 +30,7 @@ const CoursePage = () => {
       <div className="bg-white min-h-screen">
         {/* <DashNavi /> w-[calc(100%-200px)] ms-[200px]*/}
 
-        <div className=" w-full min-h-screen bg-[#0F0F0F] flex flex-col px-6 ps-0">
+        <div className=" w-full min-h-screen bg-[#0F0F0F] flex flex-col">
           {/* Profile */}
           <div className="w-full h-[60px] text-white flex flex-row px-3 items-center justify-between">
             {/* Logo */}
@@ -67,8 +67,7 @@ const CoursePage = () => {
                     <BackIcon hex="#777777" />
                   </span>
                   <span className={"text-xl " + bebas.className}>
-                    {" "}
-                    Back to Courses{" "}
+                    Back to Courses
                   </span>
                 </span>
               </div>
