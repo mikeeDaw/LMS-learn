@@ -35,8 +35,7 @@ export const regAction = async (values: z.infer<typeof RegSchema>) => {
   try {
     console.log(fName, lName, email, password, "DDD");
     await createUser({
-      fName: fName,
-      lName: lName,
+      name: `${fName} ${lName}`,
       email: email,
       password: hashPass,
       userRole: "USER",

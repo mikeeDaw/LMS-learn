@@ -172,6 +172,7 @@ const Dashboard = async () => {
               diff="Beginner"
               key={"C1"}
               tier="Astro"
+              delayTime={0.1}
             />
             <CourseCard
               title="MongoDB Basic Course"
@@ -181,6 +182,7 @@ const Dashboard = async () => {
               diff="Beginner"
               key={"C2"}
               tier="Free"
+              delayTime={0.2}
             />
             <CourseCard
               title="MongoDB Basic Course"
@@ -190,6 +192,7 @@ const Dashboard = async () => {
               diff="Beginner"
               key={"C3"}
               tier="Premium"
+              delayTime={0.3}
             />
             <CourseCard
               title="MongoDB Basic Course"
@@ -199,6 +202,17 @@ const Dashboard = async () => {
               diff="Beginner"
               key={"C4"}
               tier="Premium"
+              delayTime={0.4}
+            />
+            <CourseCard
+              title="MongoDB Basic Course"
+              author="Anthony De la Cruz"
+              tags={["Database", "CRUD Operations"]}
+              students={3568}
+              diff="Beginner"
+              key={"C4"}
+              tier="Astro"
+              delayTime={0.4}
             />
           </div>
         </div>

@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import { Bebas_Neue, Poppins } from "next/font/google";
+import { motion } from "framer-motion";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
@@ -11,6 +13,7 @@ interface Props {
   tags: string[];
   students: number;
   diff: string;
+  delayTime: number;
   tier: string;
 }
 
@@ -20,10 +23,24 @@ const CourseCard: React.FC<Props> = ({
   tags,
   students,
   diff,
+  delayTime,
   tier,
 }) => {
   return (
-    <div className="w-1/3 px-3.5 pb-6">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        transition: {
+          type: "spring",
+          duration: 0.8,
+          delay: delayTime,
+          bounce: 0.4,
+        },
+      }}
+      className="w-1/3 px-3.5 pb-6"
+    >
       <div
         className={
           "bg-[#FFFFFF] shadow-[0_1px_15px_-8px_#000] relative h-fit rounded-xl px-3 py-3 flex flex-col gap-3 w-full overflow-hidden "
@@ -77,11 +94,11 @@ const CourseCard: React.FC<Props> = ({
           </span>
         </div>
         {/* Get Course Button */}
-        <button className="w-full border mt-1 border-[#7ae36a] text-[#7ae36a] rounded-full text-sm py-2">
+        <button className="w-full border mt-1 border-[#7ae36a] text-[#7ae36a] hover:bg-[#7ae36a] hover:text-white transtion-all duration-300 rounded-full text-sm py-2">
           View Course
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
