@@ -5,13 +5,16 @@ import { LoginSchema } from "../_schema";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { connectToDb } from "../_lib/mongoose";
+
 
 export const googleAction = async () => {
   await signIn("google", { redirectTo: "/" });
 };
 
 export const logAction = async (values: z.infer<typeof LoginSchema>) => {
-  console.log(values);
+
+
   // Validate the fields again in server
   const validatedFields = LoginSchema.safeParse(values);
 
@@ -29,7 +32,7 @@ export const logAction = async (values: z.infer<typeof LoginSchema>) => {
       redirectTo: "/dashboard",
     });
   } catch (error) {
-    console.log(error);
+    console.log("onError", error);
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":

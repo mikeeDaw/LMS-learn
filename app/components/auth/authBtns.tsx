@@ -279,7 +279,7 @@ const RegisterUser = () => {
       <div className="flex ">
         <form
           ref={formRef}
-          className="flex flex-col gap-3"
+          className="flex flex-col w-full gap-3"
           onSubmit={handleSubmit(handleClick)}
         >
           {/* Name */}

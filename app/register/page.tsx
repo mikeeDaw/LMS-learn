@@ -63,7 +63,7 @@ const Register = () => {
 
             {/* Create Account */}
             <div className="flex flex-col w-full mt-4 gap-5">
-              <GoogleLogInBtn text="Sign Up with Google" />
+              <GoogleLogInBtn text="Sign Up with Google"/>
               {/* "Create" partition */}
               <div className="flex w-full gap-3 items-center">
                 <span className="bg-[#888888] grow h-[1px]" />
