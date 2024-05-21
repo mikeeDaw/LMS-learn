@@ -13,7 +13,7 @@ const BackBtn = () => {
   return (
     <button
       className={
-        "text-2xl text-[#333333] pt-8 px-4 absolute top-0 right-3 flex items-center gap-3 cursor-pointer"
+        "text-xl text-[#333333] pt-8 px-4 absolute top-0 right-3 flex items-center gap-3 cursor-pointer"
       }
       onClick={() => {
         rout.back();

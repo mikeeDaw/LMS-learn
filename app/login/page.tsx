@@ -28,7 +28,7 @@ const LoginPage = async () => {
           {/* Logo */}
           <span
             className={
-              "text-4xl text-[#333333] pt-8 px-4 absolute top-0 left-5 " +
+              "text-2xl text-[#333333] pt-8 px-4 absolute top-0 left-5 " +
               bebas.className
             }
           >
@@ -40,27 +40,24 @@ const LoginPage = async () => {
           {/* Back Button */}
           <BackBtn />
           {/* Content Area */}
-          <div className="flex flex-col w-5/6 items-center gap-4 mt-14 px-8 xl:px-6">
+          <div className="flex flex-col w-5/6 items-center gap-2 mt-14 px-4 xl:px-6">
             {/* Text Intro */}
             <span
               className={
-                "text-5xl text-center text-[#509d44] " + bebas.className
+                "text-4xl text-center text-[#509d44] " + bebas.className
               }
             >
               Welcome Back Learner!
             </span>
             <span
-              className={
-                "text-base text-center text-[#575757] " + popp.className
-              }
+              className={"text-sm text-center text-[#575757] " + popp.className}
             >
               Welcome to our learning community! Whether you're here to learn or
-              explore, you're in the right place. Dive into your courses and
-              latest resources!
+              explore, you're in the right place.
             </span>
 
             {/* Login Options */}
-            <div className="flex flex-col w-full mt-6 gap-7">
+            <div className="flex flex-col w-full mt-6 gap-4">
               <GoogleLogInBtn text="Continue with Google" />
               {/* "OR" partition */}
               <div className="flex w-full gap-3 items-center">
@@ -75,13 +72,13 @@ const LoginPage = async () => {
             </div>
             {/* Sign In */}
             <div className="flex gap-2 items-center mt-3 ">
-              <span className={"text-sm " + popp.className}>
+              <span className={"text-xs " + popp.className}>
                 Don't Have an Account?
               </span>
               <Link href={"/register"}>
                 <span
                   className={
-                    "text-base underline text-[#6bc85d] cursor-pointer " +
+                    "text-sm underline text-[#6bc85d] cursor-pointer " +
                     poppSemi.className
                   }
                 >

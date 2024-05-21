@@ -28,7 +28,7 @@ const Register = () => {
           {/* Logo */}
           <span
             className={
-              "text-4xl text-[#333333] pt-8 px-4 absolute top-0 left-5 " +
+              "text-2xl text-[#333333] pt-8 px-4 absolute top-0 left-5 " +
               bebas.className
             }
           >
@@ -40,12 +40,12 @@ const Register = () => {
           {/* Back Button */}
           <BackBtn />
           {/* Content Area */}
-          <div className="flex flex-col w-5/6 items-center gap-4 px-8 xl:px-6 relative">
+          <div className="flex flex-col w-5/6 items-center gap-4 px-1 xl:px-4 relative">
             {/* Text Intro */}
             <div className="flex flex-col gap-2 mt-10">
               <span
                 className={
-                  "text-5xl text-center text-[#509d44] w-full " +
+                  "text-3xl text-center text-[#509d44] w-full " +
                   bebas.className
                 }
               >
@@ -53,8 +53,7 @@ const Register = () => {
               </span>
               <span
                 className={
-                  "text-base text-center text-[#575757] w-full " +
-                  popp.className
+                  "text-sm text-center text-[#575757] w-full " + popp.className
                 }
               >
                 We're thrilled that you're taking a first step towards growth!
@@ -63,7 +62,7 @@ const Register = () => {
             </div>
 
             {/* Create Account */}
-            <div className="flex flex-col w-full mt-3 gap-7">
+            <div className="flex flex-col w-full mt-4 gap-5">
               <GoogleLogInBtn text="Sign Up with Google" />
               {/* "Create" partition */}
               <div className="flex w-full gap-3 items-center">
