@@ -17,11 +17,12 @@ const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 const Dashboard = async () => {
   const session = await auth();
   console.log("sesh sa dash:", session);
+  const name = session?.user!.name!.split(" ")!;
   return (
     <>
       <div className="bg-white min-h-screen flex">
         {/* Dashboard */}
-        <NavigationBar />
+        <NavigationBar name={`${name[0]} ${name.pop()![0]}.`} />
         {/* Content */}
         <div className="grow h-screen bg-[#fafafa] flex flex-col">
           {/* Header */}

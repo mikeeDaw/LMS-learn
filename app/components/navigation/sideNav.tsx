@@ -17,7 +17,11 @@ const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
-const NavigationBar = () => {
+interface Props {
+  name: string;
+}
+
+const NavigationBar: React.FC<Props> = ({ name }) => {
   const [expand, setExpand] = useState(true);
 
   return (
@@ -74,7 +78,7 @@ const NavigationBar = () => {
                     (expand ? " " : " w-0 h-0")
                   }
                 >
-                  Jack Stone
+                  {name}
                 </span>
                 <span
                   className={
