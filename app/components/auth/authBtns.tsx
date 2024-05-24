@@ -59,6 +59,7 @@ const CredentialLogIn = () => {
   const [passFocus, setPassFocus] = useState(false);
   const [emailCol, setEmailCol] = useState<string>("");
   const [passCol, setPassCol] = useState<string>("");
+
   const handleClick = (values: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
       await logAction(values).then((result) => {
@@ -99,6 +100,73 @@ const CredentialLogIn = () => {
   useEffect(() => {
     setPassCol(iconColor(passFocus, errors.password));
   }, [passFocus, errors.password, logErr]);
+
+  useEffect(() => {
+    if (
+      errors.email &&
+      errors.password &&
+      errors.email.message &&
+      errors.password.message
+    ) {
+      if (
+        errors.email.message.search("Required") > -1 &&
+        errors.password.message.search("Required") > -1
+      ) {
+        toast.error("ERROR!", {
+          description: "Please Fillout the Fields.",
+          duration: 2000,
+          icon: (
+            <span className="text-red-500 ps-2">
+              <CircleX />
+            </span>
+          ),
+          classNames: {
+            toast: "bg-red-100",
+            title: "ms-4 text-red-500",
+            description: "ms-4 text-[#555555]",
+            icon: "bg-black",
+          },
+        });
+      }
+    } else if (errors.email && errors.email.message) {
+      if (errors.email.message.search("Required") > -1) {
+        toast.error("ERROR!", {
+          description: errors.email.message,
+          duration: 2000,
+          icon: (
+            <span className="text-red-500 ps-2">
+              <CircleX />
+            </span>
+          ),
+          classNames: {
+            toast: "bg-red-100",
+            title: "ms-4 text-red-500",
+            description: "ms-4 text-[#555555]",
+            icon: "bg-black",
+          },
+        });
+      }
+      if (errors.password && errors.password.message) {
+        if (errors.password.message.search("Required") > -1) {
+          toast.error("ERROR!", {
+            description: errors.password.message,
+            duration: 2000,
+            icon: (
+              <span className="text-red-500 ps-2">
+                <CircleX />
+              </span>
+            ),
+            classNames: {
+              toast: "bg-red-100",
+              title: "ms-4 text-red-500",
+              description: "ms-4 text-[#555555]",
+              icon: "bg-black",
+            },
+          });
+        }
+      }
+    }
+  }, [errors.email, errors.password]);
 
   return (
     <div className="flex flex-col">
@@ -213,6 +281,7 @@ const RegisterUser = () => {
 
   const handleClick = (values: z.infer<typeof RegSchema>) => {
     const result = RegSchema.safeParse(values);
+
     startTransition(async () => {
       await regAction(values).then((result) => {
         console.log(result);
@@ -274,6 +343,7 @@ const RegisterUser = () => {
   useEffect(() => {
     setConfCol(iconCol(confFoc, errors.confPass));
   }, [confFoc, errors.confPass]);
+
   return (
     <>
       <div className="flex ">
