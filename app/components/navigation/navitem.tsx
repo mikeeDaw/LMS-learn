@@ -9,7 +9,7 @@ interface Props {
 
 const NavItem: React.FC<Props> = ({ text, linkTo, styling }) => {
   return (
-    <Link href={"#"} className={"text-sm text-white " + styling}>
+    <Link href={linkTo} className={"text-sm text-white " + styling}>
       {text}
     </Link>
   );

@@ -40,7 +40,8 @@ const Navbar = () => {
         <div className="flex gap-5 items-center">
           <NavItem
             text="Log In"
-            linkTo="#"
+            linkTo="/login"
+            data-testid="login-signup-button"
             styling={"text-lg me-4 " + popp.className}
           />
           <NavItem

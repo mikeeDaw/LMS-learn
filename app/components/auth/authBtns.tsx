@@ -30,6 +30,7 @@ const GoogleLogInBtn: React.FC<TextProp> = ({ text }) => {
     <button
       className="flex border border-[#575757] w-full justify-center items-center gap-6 text-sm py-3 rounded-lg"
       onClick={handleClick}
+      data-testid="google-login-button"
     >
       <span className="w-4">
         <img src="/assets/images/google.svg" alt="Google Logo" />
@@ -186,6 +187,7 @@ const CredentialLogIn = () => {
             }
             type="text"
             id="Email"
+            data-testid="email-login-field"
             placeholder="john.doe@example.com"
             autoComplete="off"
             {...register("email")}
@@ -215,6 +217,7 @@ const CredentialLogIn = () => {
               popp.className
             }
             type="password"
+            data-testid="password-login-field"
             disabled={pending}
             id="Password"
             placeholder="************"
@@ -240,6 +243,7 @@ const CredentialLogIn = () => {
             poppSemi.className
           }
           type="submit"
+          data-testid="login-button"
           disabled={pending}
         >
           LOG IN WITH EMAIL
@@ -366,6 +370,7 @@ const RegisterUser = () => {
                 }
                 type="text"
                 id="Fname"
+                data-testid="first-name-register-field"
                 onFocus={() => setFnmFoc(true)}
                 onBlurCapture={() => {
                   setFnmFoc(false);
@@ -393,6 +398,7 @@ const RegisterUser = () => {
                   popp.className
                 }
                 type="text"
+                data-testid="last-name-register-field"
                 id="Lname"
                 onFocus={() => setLnmFoc(true)}
                 onBlurCapture={() => {
@@ -423,6 +429,7 @@ const RegisterUser = () => {
               }
               type="text"
               id="Email"
+              data-testid="email-register-field"
               placeholder="Email"
               onFocus={() => setEmFoc(true)}
               onBlurCapture={() => {
@@ -450,6 +457,7 @@ const RegisterUser = () => {
                 popp.className
               }
               type="password"
+              data-testid="password-register-field"
               id="passy"
               placeholder="Password"
               onFocus={() => setPassFoc(true)}
@@ -478,6 +486,7 @@ const RegisterUser = () => {
                 popp.className
               }
               type="password"
+              data-testid="confirm-password-register-field"
               placeholder="Confirm Password"
               onFocus={() => setConfFoc(true)}
               onBlurCapture={() => {
