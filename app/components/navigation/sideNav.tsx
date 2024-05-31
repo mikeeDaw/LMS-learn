@@ -28,7 +28,7 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
     <div
       className={
         "bg-black flex flex-col h-screen text-[#BBBBBB] transition-all border-r border-[#888888] " +
-        (expand ? "w-[220px] " : "w-[90px] ") +
+        (expand ? "w-[210px] " : "w-[90px] ") +
         popp.className
       }
     >
@@ -96,7 +96,7 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
           <div
             className={
               "flex flex-col border-b pb-8 border-[#8888887F] " +
-              (expand ? "gap-2" : "gap-4")
+              (expand ? "gap-0" : "gap-2")
             }
           >
             <span
@@ -110,12 +110,12 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
             </span>
             <NavItem
               expand={expand}
-              icon={<Home size={expand ? 23 : 26} />}
+              icon={<Home size={expand ? 21 : 24} />}
               textStr="Dashboard"
             />
             <NavItem
               expand={expand}
-              icon={<Flag size={expand ? 23 : 26} />}
+              icon={<Flag size={expand ? 21 : 24} />}
               textStr="Reports"
             />
           </div>
@@ -124,7 +124,7 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
           <div
             className={
               "flex flex-col border-b pb-8 border-[#8888887F] " +
-              (expand ? "gap-2" : "gap-4")
+              (expand ? "gap-0" : "gap-2")
             }
           >
             <span
@@ -138,17 +138,17 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
             </span>
             <NavItem
               expand={expand}
-              icon={<GraduationCap size={expand ? 25 : 28} />}
+              icon={<GraduationCap size={expand ? 22 : 24} />}
               textStr="Courses"
             />
             <NavItem
               expand={expand}
-              icon={<Brain size={expand ? 23 : 26} />}
+              icon={<Brain size={expand ? 21 : 24} />}
               textStr="Students"
             />
             <NavItem
               expand={expand}
-              icon={<Gem size={expand ? 23 : 26} />}
+              icon={<Gem size={expand ? 21 : 24} />}
               textStr="Kahit Ano"
             />
           </div>

@@ -14,11 +14,12 @@ const NavItem: React.FC<Props> = ({ icon, textStr, expand }) => {
         (expand ? "" : "justify-center")
       }
     >
-      <span className="absolute z-0 w-[100px] h-[100px] flex grow bg-[#3fc754] rounded-full right-[100%] pointer-events-none transition-all duration-300 pillCir2 " />
+      <span className="absolute z-0 w-[80px] h-[80px] flex grow bg-[#3fc754] rounded-full right-[100%] pointer-events-none transition-all duration-300 pillCir2 " />
       <span className="z-10">{icon}</span>
       <span
         className={
-          "overflow-hidden text-nowrap z-10 " + (expand ? "" : "hidden w-0")
+          "overflow-hidden text-nowrap z-10 text-sm " +
+          (expand ? "" : "hidden w-0")
         }
       >
         {textStr}
