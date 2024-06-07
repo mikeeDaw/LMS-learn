@@ -7,14 +7,11 @@ import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { connectToDb } from "../_lib/mongoose";
 
-
 export const googleAction = async () => {
   await signIn("google", { redirectTo: "/" });
 };
 
 export const logAction = async (values: z.infer<typeof LoginSchema>) => {
-
-
   // Validate the fields again in server
   const validatedFields = LoginSchema.safeParse(values);
 
@@ -29,7 +26,7 @@ export const logAction = async (values: z.infer<typeof LoginSchema>) => {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/dashboard",
+      redirectTo: "/browse",
     });
   } catch (error) {
     console.log("onError", error);

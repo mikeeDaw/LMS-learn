@@ -26,4 +26,12 @@ export const createCourse = (values: Record<string, any>) =>
 
 export const findCourseByCode = (code: string) => courseModel.findOne({ code });
 
+export const findCourses = (codes: string[]) =>
+  courseModel.find({ code: { $in: codes } });
+
 export const getAllCourses = () => courseModel.find();
+
+export const getPublished = () => courseModel.find({ published: true });
+
+export const enrollStudent = (code: string, uID: string) =>
+  courseModel.updateOne({ code }, { $push: { students: uID } }, { new: true });

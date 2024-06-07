@@ -24,7 +24,7 @@ interface TextProp {
 
 const GoogleLogInBtn: React.FC<TextProp> = ({ text }) => {
   const handleClick = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl: "/browse" });
   };
   return (
     <button

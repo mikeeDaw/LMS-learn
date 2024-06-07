@@ -99,24 +99,17 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
               (expand ? "gap-0" : "gap-2")
             }
           >
-            <span
-              className={
-                "text-lg translate-y-1 mb-2 px-4 overflow-hidden text-nowrap " +
-                bebas.className +
-                (expand ? "" : " w-0 h-0")
-              }
-            >
-              ANALYTICS
-            </span>
             <NavItem
               expand={expand}
               icon={<Home size={expand ? 21 : 24} />}
               textStr="Dashboard"
+              to="/dashboard"
             />
             <NavItem
               expand={expand}
               icon={<Flag size={expand ? 21 : 24} />}
-              textStr="Reports"
+              textStr="My Courses"
+              to="/mycourses"
             />
           </div>
 
@@ -134,22 +127,25 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
                 (expand ? "" : " w-0 h-0")
               }
             >
-              Application
+              Learn
             </span>
             <NavItem
               expand={expand}
               icon={<GraduationCap size={expand ? 22 : 24} />}
-              textStr="Courses"
+              textStr="Browse"
+              to="/browse"
             />
             <NavItem
               expand={expand}
               icon={<Brain size={expand ? 21 : 24} />}
               textStr="Students"
+              to="#"
             />
             <NavItem
               expand={expand}
               icon={<Gem size={expand ? 21 : 24} />}
               textStr="Kahit Ano"
+              to="#"
             />
           </div>
         </div>

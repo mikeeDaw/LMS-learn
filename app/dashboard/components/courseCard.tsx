@@ -2,6 +2,7 @@
 import React from "react";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
@@ -15,6 +16,7 @@ interface Props {
   diff: string;
   delayTime: number;
   tier: string;
+  code: string;
 }
 
 const CourseCard: React.FC<Props> = ({
@@ -25,6 +27,7 @@ const CourseCard: React.FC<Props> = ({
   diff,
   delayTime,
   tier,
+  code,
 }) => {
   return (
     <motion.div
@@ -99,9 +102,11 @@ const CourseCard: React.FC<Props> = ({
           </span>
         </div>
         {/* Get Course Button */}
-        <button className="w-full border mt-1 border-[#7ae36a] text-[#7ae36a] hover:bg-[#7ae36a] hover:text-white transtion-all duration-300 rounded-full text-sm py-2">
-          View Course
-        </button>
+        <Link href={`/course/${code}`}>
+          <button className="w-full border mt-1 border-[#7ae36a] text-[#7ae36a] hover:bg-[#7ae36a] hover:text-white transtion-all duration-300 rounded-full text-sm py-2">
+            View Course
+          </button>
+        </Link>
       </div>
     </motion.div>
   );

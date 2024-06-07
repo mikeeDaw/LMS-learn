@@ -11,7 +11,7 @@ import { auth } from "@/auth";
 import NavigationBar from "@/app/components/navigation/sideNav";
 import CourseTab from "@/app/dashboard/components/courseTab";
 import { connectToDb } from "@/app/_lib/mongoose";
-import { getAllCourses } from "@/app/_model/courseModel";
+import { getAllCourses, getPublished } from "@/app/_model/courseModel";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
@@ -19,11 +19,10 @@ const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const Dashboard = async () => {
   const session = await auth();
-  console.log("sesh sa dash:", session);
   const name = session?.user!.name!.split(" ")!;
 
   await connectToDb();
-  const courses = await getAllCourses();
+  const courses = await getPublished();
 
   let delayTime = 0;
   return (
@@ -164,59 +163,10 @@ const Dashboard = async () => {
                   key={course.code}
                   tier={course.tier}
                   delayTime={delayTime}
+                  code={course.code}
                 />
               );
             })}
-            <CourseCard
-              title="Foundations of UI/UX Design"
-              author="Michael Daw"
-              tags={["UI/UX Design", "Published"]}
-              students={1938}
-              diff="Beginner"
-              key={"C1"}
-              tier="Astro"
-              delayTime={0.1}
-            />
-            <CourseCard
-              title="MongoDB Basic Course"
-              author="Anthony De la Cruz"
-              tags={["Database", "CRUD Operations"]}
-              students={3568}
-              diff="Beginner"
-              key={"C2"}
-              tier="Free"
-              delayTime={0.2}
-            />
-            <CourseCard
-              title="MongoDB Basic Course"
-              author="Anthony De la Cruz"
-              tags={["Database", "CRUD Operations"]}
-              students={3568}
-              diff="Beginner"
-              key={"C3"}
-              tier="Premium"
-              delayTime={0.3}
-            />
-            <CourseCard
-              title="MongoDB Basic Course"
-              author="Anthony De la Cruz"
-              tags={["Database", "CRUD Operations"]}
-              students={3568}
-              diff="Beginner"
-              key={"C4"}
-              tier="Premium"
-              delayTime={0.4}
-            />
-            <CourseCard
-              title="MongoDB Basic Course"
-              author="Anthony De la Cruz"
-              tags={["Database", "CRUD Operations"]}
-              students={3568}
-              diff="Beginner"
-              key={"C4"}
-              tier="Astro"
-              delayTime={0.4}
-            />
           </div>
         </div>
       </div>
