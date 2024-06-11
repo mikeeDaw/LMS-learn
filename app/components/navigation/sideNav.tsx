@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import {
+  Bolt,
   Brain,
   ChevronsLeft,
   Flag,
@@ -150,7 +151,13 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
           </div>
         </div>
         {/* Bottom Area */}
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
+          <NavItem
+            expand={expand}
+            icon={<Bolt size={expand ? 21 : 24} />}
+            textStr="Settings"
+            to="/settings"
+          />
           <LogoutBtn expand={expand} />
         </div>
       </div>

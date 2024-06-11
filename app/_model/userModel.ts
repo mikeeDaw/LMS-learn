@@ -23,4 +23,10 @@ export const addCourse = (uid: string, code: string) =>
     { new: true }
   );
 
+export const removeCourse = (code: string, uid: string) =>
+  userModel.updateOne({ _id: uid }, { $pullAll: { courses: [code] } });
+
+export const deleteUser = (email: string) =>
+  userModel.deleteOne({ email: email });
+
 export { userModel };

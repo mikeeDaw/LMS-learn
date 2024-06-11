@@ -1,14 +1,17 @@
 "use server";
 
 import { connectToDb } from "../_lib/mongoose";
-import { enrollStudent, findCourses } from "../_model/courseModel";
-import { addCourse, findUserbyId } from "../_model/userModel";
+import {
+  enrollStudent,
+  findCourses,
+  removeStudent,
+} from "../_model/courseModel";
+import { addCourse, findUserbyId, removeCourse } from "../_model/userModel";
 
 export const enrollToCourse = async (code: string, uid: string) => {
   await connectToDb();
 
   const user = await findUserbyId(uid);
-  console.log("XXXXXXXXXXXXXXXXXXXXXXX", user);
 
   //   return true;
 
@@ -37,5 +40,17 @@ export const getCoursesOfUser = async (uid: string) => {
   } else {
     console.log("walang enrolled");
     return [];
+  }
+};
+
+export const unenrollStudent = async (code: string, uid: string) => {
+  await connectToDb();
+
+  try {
+    const res = await removeStudent(uid, code);
+    const rem = await removeCourse(code, uid);
+    return { error: false, msg: "Unenrollment Successful" };
+  } catch (error) {
+    return { error: true, msg: "Error in Unenrolling..." };
   }
 };

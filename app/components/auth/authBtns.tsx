@@ -525,6 +525,7 @@ const RegisterUser = () => {
               poppSemi.className
             }
             type="submit"
+            data-testid="register-button"
           >
             SIGN UP
           </button>

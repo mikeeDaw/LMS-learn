@@ -33,7 +33,7 @@ const Dashboard = async () => {
         {/* Content */}
         <div className="grow h-screen bg-[#fafafa] flex flex-col">
           {/* Header */}
-          <div className="w-full px-6 h-[84px]  text-black flex flex-row items-center justify-between">
+          <div className="w-full px-6 h-[70px]  text-black flex flex-row items-center justify-between">
             {/* Title */}
             <span className={"text-3xl translate-y-1 " + bebas.className}>
               Browse Materials
@@ -150,7 +150,7 @@ const Dashboard = async () => {
             </button>
           </div>
           {/* Courses */}
-          <div className="w-full overflow-y-scroll py-4 px-6 grow text-white rounded-xl flex flex-wrap justify-start text-2xl overflow-hidden">
+          <div className="w-full overflow-y-scroll py-4 px-6 grow text-white rounded-xl flex flex-wrap justify-start text-2xl overflow-hidden ">
             {courses.map((course) => {
               delayTime += 0.1;
               return (

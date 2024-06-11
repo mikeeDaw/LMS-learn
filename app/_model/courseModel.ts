@@ -35,3 +35,16 @@ export const getPublished = () => courseModel.find({ published: true });
 
 export const enrollStudent = (code: string, uID: string) =>
   courseModel.updateOne({ code }, { $push: { students: uID } }, { new: true });
+
+export const removeStudent = (uid: string, code: string) =>
+  courseModel.findOneAndUpdate(
+    { code },
+    { $pullAll: { students: [uid] } },
+    { new: true }
+  );
+
+export const removeStudentFromMany = (codes: string[], uid: string) =>
+  courseModel.updateMany(
+    { code: { $in: codes } },
+    { $pullAll: { students: [uid] } }
+  );

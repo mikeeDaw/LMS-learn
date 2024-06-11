@@ -50,15 +50,6 @@ const page = async () => {
               <div className="w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white">
                 X
               </div>
-              {/* <div className="w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white">
-                X
-              </div>
-              <div className="w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white">
-                X
-              </div>
-              <div className="w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white">
-                X
-              </div> */}
 
               {courses.map((cors) => {
                 return (

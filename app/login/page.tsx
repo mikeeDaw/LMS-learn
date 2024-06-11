@@ -75,7 +75,7 @@ const LoginPage = async () => {
               <span className={"text-xs " + popp.className}>
                 Don't Have an Account?
               </span>
-              <Link href={"/register"}>
+              <Link href={"/register"} data-testid="signup-button">
                 <span
                   className={
                     "text-sm underline text-[#6bc85d] cursor-pointer " +

@@ -21,7 +21,6 @@ import {
 import Details from "@/app/components/course/details";
 import { useRouter } from "next/router";
 import { findCourseByCode } from "@/app/_model/courseModel";
-import { NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { EnrollBtn } from "@/app/components/course/clientElems";
