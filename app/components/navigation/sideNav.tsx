@@ -104,7 +104,7 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
               expand={expand}
               icon={<Home size={expand ? 21 : 24} />}
               textStr="Dashboard"
-              to="/dashboard"
+              to="#"
             />
             <NavItem
               expand={expand}

@@ -34,7 +34,7 @@ export const getCoursesOfUser = async (uid: string) => {
 
   const user = await findUserbyId(uid);
 
-  if (user.courses.length !== 0) {
+  if (user.courses && user.courses.length !== 0) {
     const records = await findCourses(user.courses);
     return records;
   } else {

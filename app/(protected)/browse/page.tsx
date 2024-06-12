@@ -17,6 +17,9 @@ const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 const Dashboard = async () => {
   const session = await auth();
   const name = session?.user!.name!.split(" ")!;

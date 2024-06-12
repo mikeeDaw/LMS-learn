@@ -37,7 +37,7 @@ export const DelBtn: React.FC<Props> = ({ uemail }) => {
 
       setTimeout(() => {
         signOut({ callbackUrl: "/login" });
-      }, 3000);
+      }, 2500);
     } else {
       console.log("error happened");
     }

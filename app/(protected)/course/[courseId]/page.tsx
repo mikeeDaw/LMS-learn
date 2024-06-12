@@ -19,7 +19,6 @@ import {
   Users,
 } from "lucide-react";
 import Details from "@/app/components/course/details";
-import { useRouter } from "next/router";
 import { findCourseByCode } from "@/app/_model/courseModel";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -32,16 +31,26 @@ const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
-  console.log(params, "paraaaaaaaaaaaaaa");
   const res = await findCourseByCode(params.courseId).then((resp) =>
     JSON.parse(JSON.stringify(resp))
   );
-  if (!res) {
+  if (!res || !res.published) {
     redirect("/browse");
   }
 
   const sesh = await auth();
   console.log("sa course sesh", sesh);
+
+  console.log(res, "Sesh", sesh);
+  let enrolled = false;
+  if (res.students.includes(sesh?.user!.id)) {
+    enrolled = true;
+  }
+
+  // if (!isPublisher) {
+  //   return redirect("/browse");
+  // }
+
   return (
     <>
       <div className="bg-white min-h-screen">
@@ -72,10 +81,10 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
 
           <div className="flex flex-row relative gap-5 h-[calc(100vh-60px)] ">
             {/* Left Side */}
-            <div className="w-2/12 rounded-tl-2xl flex flex-col py-4 ps-6 pe-3 gap-4">
+            <div className="w-2/12 rounded-tl-2xl flex flex-col py-4  gap-4">
               {/* Back */}
-              <Link href={"/browse"}>
-                <div className="flex items-center relative">
+              <Link href={"/browse"} className="ps-6 pe-3">
+                <div className="flex items-center relative ">
                   <span
                     className={
                       "text-2xl text-[#777777] flex items-center gap-2 cursor-pointer"
@@ -91,24 +100,64 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                 </div>
               </Link>
               {/* Course Title */}
-              <div className="flex flex-col">
+              <div className="flex flex-col ps-6 pe-3">
                 <span
                   className={
-                    "text-[#555555] translate-y-[5px] " + bebas.className
+                    "text-[#555555] translate-y-[5px] text-sm " +
+                    bebas.className
                   }
                 >
                   Course Title
                 </span>
-                <span className={"text-[#cccccc] pe-8 " + poppSemi.className}>
-                  Fundamentals of UI/UX Design
+                <span
+                  className={
+                    "text-[#cccccc] pe-8 text-lg " + poppSemi.className
+                  }
+                >
+                  {res.title}
+                </span>
+                <span className={`${bebas.className} text-[#676767] text-lg`}>
+                  {res.code}
                 </span>
               </div>
               {/* Chapters */}
-              <div className="flex flex-col mt-5 relative gap-4 ">
-                <Chapters module="Course Introduction" />
-                <Chapters module="Designing Keypoints" />
-                <Chapters module="Basic Layouts Study" />
-                <Chapters module="Isa Pang Chapter II" />
+              <div className="flex flex-col mt-3 relative gap-4 ">
+                <span
+                  className={
+                    "text-[#555555] translate-y-[5px] text-base ps-6 pe-3 " +
+                    bebas.className
+                  }
+                >
+                  Chapters
+                </span>
+                <button className="flex gap-3 items-center ps-6 pe-3 mb-2">
+                  <span className="text-[#CCCCCC] text-start text-xs border border-[#CCCCCC] w-6 h-6 flex items-center justify-center rounded-[50%] p-3">
+                    O
+                  </span>
+                  <div
+                    className={
+                      "w-full text-[#CCCCCC] relative text-start " +
+                      popp.className
+                    }
+                  >
+                    <span>Course Introduction</span>
+                  </div>
+                </button>
+                <Chapters
+                  module="Designing Keypoints"
+                  num={1}
+                  access={enrolled}
+                />
+                <Chapters
+                  module="Basic Layouts Study"
+                  num={2}
+                  access={enrolled}
+                />
+                <Chapters
+                  module="Isa Pang Chapter II"
+                  num={3}
+                  access={enrolled}
+                />
               </div>
             </div>
 
@@ -181,12 +230,12 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                     />
                     <Details
                       title="Skill Level"
-                      val="Beginner"
+                      val={res.diff}
                       icon={<Apple size={17} />}
                     />
                     <Details
                       title="LearnFlix Tier"
-                      val="Basic"
+                      val={res.tier}
                       icon={<Sparkles size={17} />}
                     />
                   </div>
