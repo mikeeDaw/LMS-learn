@@ -41,7 +41,6 @@ const Navbar = () => {
           <NavItem
             text="Log In"
             linkTo="/login"
-            data-testid="login-signup-button"
             styling={"text-lg me-4 " + popp.className}
           />
           <NavItem
