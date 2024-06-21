@@ -43,7 +43,7 @@ const CourseCard: React.FC<Props> = ({
         },
       }}
       whileHover={{ scale: 1.04, transition: { duration: 0.4 } }}
-      className="w-1/3 px-3.5 pb-6"
+      className="w-1/3 px-3.5 pb-6 h-fit"
     >
       <div
         className={
@@ -102,7 +102,7 @@ const CourseCard: React.FC<Props> = ({
           </span>
         </div>
         {/* Get Course Button */}
-        <Link href={`/course/${code}`}>
+        <Link href={`/course/${code}`} data-testid={`active-course-${code}`}>
           <button className="w-full border mt-1 border-[#7ae36a] text-[#7ae36a] hover:bg-[#7ae36a] hover:text-white transtion-all duration-300 rounded-full text-sm py-2">
             View Course
           </button>

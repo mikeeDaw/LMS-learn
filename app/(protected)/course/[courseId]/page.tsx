@@ -3,7 +3,7 @@ import DashNavi from "@/app/components/navigation/dashNav";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
 import RightArr from "@/public/assets/dashIcons/rightArr";
-import Chapters from "@/app/components/course/chapters";
+import { Chapters, Quizzes } from "@/app/components/course/chapters";
 import CourseInclude from "@/app/components/course/courseInclude";
 import {
   Apple,
@@ -130,7 +130,10 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                 >
                   Chapters
                 </span>
-                <button className="flex gap-3 items-center ps-6 pe-3 mb-2">
+                <Link
+                  href={`/course/${res.code}`}
+                  className="flex gap-3 items-center ps-6 pe-3 mb-2"
+                >
                   <span className="text-[#CCCCCC] text-start text-xs border border-[#CCCCCC] w-6 h-6 flex items-center justify-center rounded-[50%] p-3">
                     O
                   </span>
@@ -142,19 +145,58 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                   >
                     <span>Course Introduction</span>
                   </div>
-                </button>
+                </Link>
                 <Chapters
+                  courseCode={res.code}
+                  onTab={true}
                   module="Designing Keypoints"
                   num={1}
                   access={enrolled}
                 />
                 <Chapters
+                  courseCode={res.code}
+                  onTab={true}
                   module="Basic Layouts Study"
                   num={2}
                   access={enrolled}
                 />
                 <Chapters
+                  courseCode={res.code}
+                  onTab={true}
                   module="Isa Pang Chapter II"
+                  num={3}
+                  access={enrolled}
+                />
+              </div>
+              {/* Quizzes */}
+              <div className="flex flex-col mt-3 relative gap-4 ">
+                <span
+                  className={
+                    "text-[#555555] translate-y-[5px] text-base ps-6 pe-3 " +
+                    bebas.className
+                  }
+                >
+                  Quizzes
+                </span>
+
+                <Quizzes
+                  onTab={false}
+                  courseCode={res.code}
+                  module="Summative Quiz <3"
+                  num={1}
+                  access={enrolled}
+                />
+                <Quizzes
+                  courseCode={res.code}
+                  onTab={false}
+                  module="Midterm Assessment"
+                  num={2}
+                  access={enrolled}
+                />
+                <Quizzes
+                  courseCode={res.code}
+                  onTab={false}
+                  module="Final Exam"
                   num={3}
                   access={enrolled}
                 />

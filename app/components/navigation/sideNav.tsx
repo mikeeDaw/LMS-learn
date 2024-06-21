@@ -29,14 +29,14 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
     <div
       className={
         "bg-black flex flex-col h-screen text-[#BBBBBB] transition-all border-r border-[#888888] " +
-        (expand ? "w-[210px] " : "w-[90px] ") +
+        (expand ? "min-w-[210px] " : "min-w-[90px] ") +
         popp.className
       }
     >
       {/* Nav Heading */}
       <div
         className={
-          "border-b border-[#888888] items-center w-full flex px-5 py-4 " +
+          "border-b border-[#888888] items-center w-full flex px-5 py-3 " +
           (expand ? "justify-between" : "justify-center")
         }
       >
@@ -114,7 +114,7 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
             />
           </div>
 
-          {/* Application */}
+          {/* Learn */}
           <div
             className={
               "flex flex-col border-b pb-8 border-[#8888887F] " +
@@ -145,8 +145,8 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
             <NavItem
               expand={expand}
               icon={<Gem size={expand ? 21 : 24} />}
-              textStr="Kahit Ano"
-              to="#"
+              textStr="Upgrade"
+              to="/upgrade"
             />
           </div>
         </div>

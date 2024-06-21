@@ -36,7 +36,7 @@ const Dashboard = async () => {
         {/* Content */}
         <div className="grow h-screen bg-[#fafafa] flex flex-col">
           {/* Header */}
-          <div className="w-full px-6 h-[70px]  text-black flex flex-row items-center justify-between">
+          <div className="w-full px-6 h-[60px] text-black flex flex-row items-center justify-between">
             {/* Title */}
             <span className={"text-3xl translate-y-1 " + bebas.className}>
               Browse Materials

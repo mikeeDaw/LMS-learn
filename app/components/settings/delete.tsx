@@ -51,6 +51,7 @@ export const DelBtn: React.FC<Props> = ({ uemail }) => {
         onClick={() => {
           setDelDia(true);
         }}
+        data-testid="delete-account"
       >
         Delete
       </button>
@@ -93,12 +94,14 @@ export const DelBtn: React.FC<Props> = ({ uemail }) => {
                 <button
                   className="border border-red-500 px-4 py-1.5 text-sm rounded-lg text-red-500 hover:bg-red-500 hover:text-white transition-all duration-200"
                   onClick={() => setDelDia(false)}
+                  data-testid="cancel"
                 >
                   Cancel
                 </button>
                 <button
                   className="self-end bg-red-500 text-white py-1.5 px-4 rounded-lg text-sm border border-red-500"
                   onClick={() => handleDeleteUser(uemail)}
+                  data-testid="proceed"
                 >
                   Delete My Account
                 </button>

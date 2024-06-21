@@ -41,19 +41,13 @@ const page = async () => {
             </span>
             {/* Courses List */}
             <div className="flex overflow-x-scroll scrollbar-hide gap-5 grow items-end">
-              <div className="w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] -translate-y-20 bg-cover border-4 border-[#8bff48]">
-                X
-              </div>
-              <div className="w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white">
-                X
-              </div>
-              <div className="w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white">
-                X
-              </div>
-
-              {courses.map((cors) => {
+              {courses.map((cors, idx) => {
                 return (
-                  <div className="w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white">
+                  <div
+                    className={`w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white shrink-0 ${
+                      idx === 0 && courses.length > 1 ? "-translate-y-20" : ""
+                    }`}
+                  >
                     X
                   </div>
                 );

@@ -9,9 +9,24 @@ interface Props {
 }
 
 const NavItem: React.FC<Props> = ({ icon, textStr, expand, to }) => {
+  const getTestId = () => {
+    switch (to) {
+      case "/browse":
+        return "available-courses";
+      case "/mycourses":
+        return "on-going-courses";
+      case "/upgrade":
+        return "subscription-plan";
+      case "/settings":
+        return "student-profile";
+      default:
+        return "";
+    }
+  };
   return (
     <Link href={to}>
       <button
+        data-testid={getTestId()}
         className={
           "flex items-center gap-3 px-4 py-2 relative overflow-hidden pill w-full " +
           (expand ? "" : "justify-center")
