@@ -38,7 +38,6 @@ export const logAction = async (values: z.infer<typeof LoginSchema>) => {
           return {
             error: true,
             msg: "Something went Wrong...",
-            errfull: error,
           };
       }
     }

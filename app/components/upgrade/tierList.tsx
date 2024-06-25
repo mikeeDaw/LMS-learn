@@ -10,6 +10,7 @@ const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const TierList = () => {
   const [focus, setFocus] = useState("PREMIUM");
+
   return (
     <>
       {/* Free Tier */}
