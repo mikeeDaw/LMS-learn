@@ -20,7 +20,7 @@ export default {
           const { email, password } = validated.data;
 
           const resp = await fetch(
-            `https://learnflix-3fpjkkytm-mikeedaws-projects.vercel.app/api/mongoose/findUser`,
+            `learnflix-git-smscreen-mikeedaws-projects.vercel.app/api/mongoose/findUser`,
             {
               method: "POST",
               body: JSON.stringify({ email: email }),
