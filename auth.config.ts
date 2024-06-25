@@ -20,7 +20,15 @@ export default {
           await connectToDb();
           const { email, password } = validated.data;
 
-          const user = await findUserbyEmail(email);
+          const resp = await fetch(
+            `${process.env.NEXTAUTH_URL}/api/mongoose/findUser`,
+            {
+              method: "POST",
+              body: JSON.stringify({ email: email }),
+            }
+          );
+          const user = await resp.json();
+
           if (!user || !user.password) return null;
 
           const passMatch = await bcrypt.compare(password, user.password);

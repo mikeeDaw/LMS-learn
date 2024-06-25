@@ -24,14 +24,15 @@ interface TextProp {
 
 const GoogleLogInBtn: React.FC<TextProp> = ({ text }) => {
   const handleClick = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl: "/browse" });
   };
   return (
     <button
-      className="flex border border-[#575757] w-full justify-center items-center gap-6 py-3 rounded-lg"
+      className="flex border border-[#575757] w-full justify-center items-center gap-6 text-sm py-3 rounded-lg"
       onClick={handleClick}
+      data-testid="google-login-button"
     >
-      <span className="w-5">
+      <span className="w-4">
         <img src="/assets/images/google.svg" alt="Google Logo" />
       </span>
       <span className={"text-[#444444] " + poppSemi.className}>{text}</span>
@@ -59,6 +60,7 @@ const CredentialLogIn = () => {
   const [passFocus, setPassFocus] = useState(false);
   const [emailCol, setEmailCol] = useState<string>("");
   const [passCol, setPassCol] = useState<string>("");
+
   const handleClick = (values: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
       await logAction(values).then((result) => {
@@ -100,6 +102,73 @@ const CredentialLogIn = () => {
     setPassCol(iconColor(passFocus, errors.password));
   }, [passFocus, errors.password, logErr]);
 
+  useEffect(() => {
+    if (
+      errors.email &&
+      errors.password &&
+      errors.email.message &&
+      errors.password.message
+    ) {
+      if (
+        errors.email.message.search("Required") > -1 &&
+        errors.password.message.search("Required") > -1
+      ) {
+        toast.error("ERROR!", {
+          description: "Please Fillout the Fields.",
+          duration: 2000,
+          icon: (
+            <span className="text-red-500 ps-2">
+              <CircleX />
+            </span>
+          ),
+          classNames: {
+            toast: "bg-red-100",
+            title: "ms-4 text-red-500",
+            description: "ms-4 text-[#555555]",
+            icon: "bg-black",
+          },
+        });
+      }
+    } else if (errors.email && errors.email.message) {
+      if (errors.email.message.search("Required") > -1) {
+        toast.error("ERROR!", {
+          description: errors.email.message,
+          duration: 2000,
+          icon: (
+            <span className="text-red-500 ps-2">
+              <CircleX />
+            </span>
+          ),
+          classNames: {
+            toast: "bg-red-100",
+            title: "ms-4 text-red-500",
+            description: "ms-4 text-[#555555]",
+            icon: "bg-black",
+          },
+        });
+      }
+      if (errors.password && errors.password.message) {
+        if (errors.password.message.search("Required") > -1) {
+          toast.error("ERROR!", {
+            description: errors.password.message,
+            duration: 2000,
+            icon: (
+              <span className="text-red-500 ps-2">
+                <CircleX />
+              </span>
+            ),
+            classNames: {
+              toast: "bg-red-100",
+              title: "ms-4 text-red-500",
+              description: "ms-4 text-[#555555]",
+              icon: "bg-black",
+            },
+          });
+        }
+      }
+    }
+  }, [errors.email, errors.password]);
+
   return (
     <div className="flex flex-col">
       <form
@@ -110,7 +179,7 @@ const CredentialLogIn = () => {
         <div className="w-full relative">
           <input
             className={
-              "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+              "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-14 " +
               (logErr || errors.email != undefined
                 ? "border-[#ec7070] "
                 : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
@@ -118,6 +187,7 @@ const CredentialLogIn = () => {
             }
             type="text"
             id="Email"
+            data-testid="email-login-field"
             placeholder="john.doe@example.com"
             autoComplete="off"
             {...register("email")}
@@ -131,7 +201,7 @@ const CredentialLogIn = () => {
           />
           <label
             htmlFor="Email"
-            className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+            className="w-4 absolute top-1/2 translate-y-[-50%] left-5"
           >
             <EmailIcon hex={emailCol} />
           </label>
@@ -140,13 +210,14 @@ const CredentialLogIn = () => {
         <div className="w-full relative">
           <input
             className={
-              "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+              "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-14 " +
               (logErr || errors.password != undefined
                 ? "border-[#ec7070] "
                 : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
               popp.className
             }
             type="password"
+            data-testid="password-login-field"
             disabled={pending}
             id="Password"
             placeholder="************"
@@ -160,7 +231,7 @@ const CredentialLogIn = () => {
           />
           <label
             htmlFor="Email"
-            className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+            className="w-4 absolute top-1/2 translate-y-[-50%] left-5"
           >
             <PassIcon hex={passCol} />
           </label>
@@ -168,10 +239,11 @@ const CredentialLogIn = () => {
         {/* Submit */}
         <button
           className={
-            "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
+            "bg-[#6bc85d] w-full py-2.5 text-sm rounded-lg text-white " +
             poppSemi.className
           }
           type="submit"
+          data-testid="login-button"
           disabled={pending}
         >
           LOG IN WITH EMAIL
@@ -213,6 +285,7 @@ const RegisterUser = () => {
 
   const handleClick = (values: z.infer<typeof RegSchema>) => {
     const result = RegSchema.safeParse(values);
+
     startTransition(async () => {
       await regAction(values).then((result) => {
         console.log(result);
@@ -274,12 +347,13 @@ const RegisterUser = () => {
   useEffect(() => {
     setConfCol(iconCol(confFoc, errors.confPass));
   }, [confFoc, errors.confPass]);
+
   return (
     <>
       <div className="flex ">
         <form
           ref={formRef}
-          className="flex flex-col gap-5"
+          className="flex flex-col w-full gap-3"
           onSubmit={handleSubmit(handleClick)}
         >
           {/* Name */}
@@ -288,7 +362,7 @@ const RegisterUser = () => {
             <div className=" w-1/2 relative">
               <input
                 className={
-                  "border w-full py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
+                  "border w-full py-2.5 text-xs outline-none pe-3 rounded-lg ps-10 " +
                   (errors.fName != undefined
                     ? "border-[#ec7070] "
                     : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
@@ -296,6 +370,7 @@ const RegisterUser = () => {
                 }
                 type="text"
                 id="Fname"
+                data-testid="first-name-register-field"
                 onFocus={() => setFnmFoc(true)}
                 onBlurCapture={() => {
                   setFnmFoc(false);
@@ -307,22 +382,23 @@ const RegisterUser = () => {
               />
               <label
                 htmlFor="Fname"
-                className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+                className="w-5 absolute top-1/2 translate-y-[-50%] left-4"
               >
-                <Sparkle size={20} color={fnmCol} />
+                <Sparkle size={15} color={fnmCol} />
               </label>
             </div>
             {/* Last Name */}
             <div className="w-1/2 relative">
               <input
                 className={
-                  "border w-full py-3 text-sm outline-none pe-3 rounded-lg ps-14 " +
+                  "border w-full py-2.5 text-xs outline-none pe-3 rounded-lg ps-10 " +
                   (errors.lName != undefined
                     ? "border-[#ec7070] "
                     : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                   popp.className
                 }
                 type="text"
+                data-testid="last-name-register-field"
                 id="Lname"
                 onFocus={() => setLnmFoc(true)}
                 onBlurCapture={() => {
@@ -335,9 +411,9 @@ const RegisterUser = () => {
               />
               <label
                 htmlFor="Lname"
-                className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+                className="w-5 absolute top-1/2 translate-y-[-50%] left-4"
               >
-                <Sparkles size={20} color={lnmCol} />
+                <Sparkles size={15} color={lnmCol} />
               </label>
             </div>
           </div>
@@ -345,7 +421,7 @@ const RegisterUser = () => {
           <div className="w-full relative">
             <input
               className={
-                "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-10 " +
                 (errors.email != undefined
                   ? "border-[#ec7070] "
                   : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
@@ -353,6 +429,7 @@ const RegisterUser = () => {
               }
               type="text"
               id="Email"
+              data-testid="email-register-field"
               placeholder="Email"
               onFocus={() => setEmFoc(true)}
               onBlurCapture={() => {
@@ -364,7 +441,7 @@ const RegisterUser = () => {
             />
             <label
               htmlFor="Email"
-              className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+              className="w-4 absolute top-1/2 translate-y-[-50%] left-4"
             >
               <EmailIcon hex={emCol} />
             </label>
@@ -373,13 +450,14 @@ const RegisterUser = () => {
           <div className="w-full relative">
             <input
               className={
-                "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-10 " +
                 (errors.password != undefined
                   ? "border-[#ec7070] "
                   : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                 popp.className
               }
               type="password"
+              data-testid="password-register-field"
               id="passy"
               placeholder="Password"
               onFocus={() => setPassFoc(true)}
@@ -392,7 +470,7 @@ const RegisterUser = () => {
             />
             <label
               htmlFor="passy"
-              className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+              className="w-4 absolute top-1/2 translate-y-[-50%] left-4"
             >
               <PassIcon hex={passCol} />
             </label>
@@ -401,13 +479,14 @@ const RegisterUser = () => {
           <div className="w-full relative">
             <input
               className={
-                "border py-3 w-full text-sm outline-none pe-3 rounded-lg ps-14 " +
+                "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-10 " +
                 (errors.confPass != undefined
                   ? "border-[#ec7070] "
                   : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
                 popp.className
               }
               type="password"
+              data-testid="confirm-password-register-field"
               placeholder="Confirm Password"
               onFocus={() => setConfFoc(true)}
               onBlurCapture={() => {
@@ -419,7 +498,7 @@ const RegisterUser = () => {
             />
             <label
               htmlFor="ConfPass"
-              className="w-5 absolute top-1/2 translate-y-[-50%] left-5"
+              className="w-4 absolute top-1/2 translate-y-[-50%] left-4"
             >
               <PassIcon hex={confCol} />
             </label>
@@ -442,10 +521,11 @@ const RegisterUser = () => {
           {/* Submit */}
           <button
             className={
-              "bg-[#6bc85d] w-full py-3 rounded-lg text-white " +
+              "bg-[#6bc85d] w-full py-2.5 rounded-lg text-sm text-white " +
               poppSemi.className
             }
             type="submit"
+            data-testid="register-button"
           >
             SIGN UP
           </button>

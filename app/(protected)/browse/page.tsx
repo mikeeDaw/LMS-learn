@@ -9,25 +9,36 @@ import CourseCard from "../../dashboard/components/courseCard";
 import { SignOutBtn } from "../../dashboard/components/DashButtons";
 import { auth } from "@/auth";
 import NavigationBar from "@/app/components/navigation/sideNav";
+import CourseTab from "@/app/dashboard/components/courseTab";
+import { connectToDb } from "@/app/_lib/mongoose";
+import { getAllCourses, getPublished } from "@/app/_model/courseModel";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
 const Dashboard = async () => {
   const session = await auth();
-  console.log("sesh sa dash:", session);
+  const name = session?.user!.name!.split(" ")!;
+
+  await connectToDb();
+  const courses = await getPublished();
+
+  let delayTime = 0;
   return (
     <>
       <div className="bg-white min-h-screen flex">
         {/* Dashboard */}
-        <NavigationBar />
+        <NavigationBar name={`${name[0]} ${name.pop()![0]}.`} />
         {/* Content */}
         <div className="grow h-screen bg-[#fafafa] flex flex-col">
           {/* Header */}
-          <div className="w-full px-6 h-[84px]  text-black flex flex-row items-center justify-between">
+          <div className="w-full px-6 h-[60px] text-black flex flex-row items-center justify-between">
             {/* Title */}
-            <span className={"text-4xl translate-y-1 " + bebas.className}>
+            <span className={"text-3xl translate-y-1 " + bebas.className}>
               Browse Materials
             </span>
             {/* Profile Stuff */}
@@ -96,36 +107,15 @@ const Dashboard = async () => {
           <div className="w-auto h-[30px] mt-1 mx-6 text-white flex items-end border-b z-0 border-[#e6e5e5] mb-2 gap-4 ">
             <span
               className={
-                "text-[#71d662] border-b border-[#71d562] pb-1 px-1 z-30 " +
+                "text-[#71d662] border-b border-[#71d562] pb-1 px-1 z-30 text-sm " +
                 popp.className
               }
             >
               All Courses
             </span>
-            <span
-              className={
-                "text-[#878787] border-b border-transparent pb-1 px-1 " +
-                popp.className
-              }
-            >
-              Programming
-            </span>
-            <span
-              className={
-                "text-[#878787] border-b border-transparent pb-1 px-1 " +
-                popp.className
-              }
-            >
-              Databases
-            </span>
-            <span
-              className={
-                "text-[#878787] border-b border-transparent pb-1 px-1 " +
-                popp.className
-              }
-            >
-              Cloud
-            </span>
+            <CourseTab text={"Programming"} />
+            <CourseTab text={"Databases"} />
+            <CourseTab text={"Cloud"} />
           </div>
 
           {/* Search & Filter */}
@@ -156,64 +146,30 @@ const Dashboard = async () => {
               <span className="w-6">
                 <SortIcon hex="#666666" />
               </span>
-              <span>Sort By</span>
+              <span className="text-sm">Sort By</span>
               <span className="w-6">
                 <DownArrow hex="#666666" />
               </span>
             </button>
           </div>
           {/* Courses */}
-          <div className="w-full overflow-y-scroll py-2 px-6 grow text-white rounded-xl flex flex-wrap justify-start text-2xl pb-5 overflow-hidden">
-            <CourseCard
-              title="Foundations of UI/UX Design"
-              author="Michael Daw"
-              tags={["UI/UX Design", "Published"]}
-              students={1938}
-              diff="Beginner"
-              key={"C1"}
-              tier="Astro"
-              delayTime={0.1}
-            />
-            <CourseCard
-              title="MongoDB Basic Course"
-              author="Anthony De la Cruz"
-              tags={["Database", "CRUD Operations"]}
-              students={3568}
-              diff="Beginner"
-              key={"C2"}
-              tier="Free"
-              delayTime={0.2}
-            />
-            <CourseCard
-              title="MongoDB Basic Course"
-              author="Anthony De la Cruz"
-              tags={["Database", "CRUD Operations"]}
-              students={3568}
-              diff="Beginner"
-              key={"C3"}
-              tier="Premium"
-              delayTime={0.3}
-            />
-            <CourseCard
-              title="MongoDB Basic Course"
-              author="Anthony De la Cruz"
-              tags={["Database", "CRUD Operations"]}
-              students={3568}
-              diff="Beginner"
-              key={"C4"}
-              tier="Premium"
-              delayTime={0.4}
-            />
-            <CourseCard
-              title="MongoDB Basic Course"
-              author="Anthony De la Cruz"
-              tags={["Database", "CRUD Operations"]}
-              students={3568}
-              diff="Beginner"
-              key={"C4"}
-              tier="Astro"
-              delayTime={0.4}
-            />
+          <div className="w-full overflow-y-scroll py-4 px-6 grow text-white rounded-xl flex flex-wrap justify-start text-2xl overflow-hidden ">
+            {courses.map((course) => {
+              delayTime += 0.1;
+              return (
+                <CourseCard
+                  title={course.title}
+                  author={course.publisherName}
+                  tags={course.tags}
+                  diff={course.diff}
+                  students={course.students.length}
+                  key={course.code}
+                  tier={course.tier}
+                  delayTime={delayTime}
+                  code={course.code}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

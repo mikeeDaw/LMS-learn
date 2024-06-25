@@ -1,29 +1,49 @@
+import Link from "next/link";
 import React, { ReactNode } from "react";
 
 interface Props {
   icon: ReactNode;
   textStr: string;
   expand: boolean;
+  to: string;
 }
 
-const NavItem: React.FC<Props> = ({ icon, textStr, expand }) => {
+const NavItem: React.FC<Props> = ({ icon, textStr, expand, to }) => {
+  const getTestId = () => {
+    switch (to) {
+      case "/browse":
+        return "available-courses";
+      case "/mycourses":
+        return "on-going-courses";
+      case "/upgrade":
+        return "subscription-plan";
+      case "/settings":
+        return "student-profile";
+      default:
+        return "";
+    }
+  };
   return (
-    <button
-      className={
-        "flex items-center gap-3 px-4 py-2 relative overflow-hidden pill " +
-        (expand ? "" : "justify-center")
-      }
-    >
-      <span className="absolute z-0 w-[100px] h-[100px] flex grow bg-[#3fc754] rounded-full right-[100%] pointer-events-none transition-all duration-300 pillCir2 " />
-      <span className="z-10">{icon}</span>
-      <span
+    <Link href={to}>
+      <button
+        data-testid={getTestId()}
         className={
-          "overflow-hidden text-nowrap z-10 " + (expand ? "" : "hidden w-0")
+          "flex items-center gap-3 px-4 py-2 relative overflow-hidden pill w-full " +
+          (expand ? "" : "justify-center")
         }
       >
-        {textStr}
-      </span>
-    </button>
+        <span className="absolute z-0 w-[80px] h-[80px] flex grow bg-[#3fc754] rounded-full right-[100%] pointer-events-none transition-all duration-300 pillCir2 " />
+        <span className="z-10">{icon}</span>
+        <span
+          className={
+            "overflow-hidden text-nowrap z-10 text-sm " +
+            (expand ? "" : "hidden w-0")
+          }
+        >
+          {textStr}
+        </span>
+      </button>
+    </Link>
   );
 };
 

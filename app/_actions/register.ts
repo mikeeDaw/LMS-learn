@@ -39,6 +39,7 @@ export const regAction = async (values: z.infer<typeof RegSchema>) => {
       email: email,
       password: hashPass,
       userRole: "USER",
+      courses: [],
     });
     console.log("tumuloy");
   } catch (error) {

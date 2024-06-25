@@ -1,10 +1,10 @@
 import React from "react";
-import DashNavi from "../../components/navigation/dashNav";
+import DashNavi from "@/app/components/navigation/dashNav";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
 import RightArr from "@/public/assets/dashIcons/rightArr";
-import Chapters from "../../components/course/chapters";
-import CourseInclude from "../../components/course/courseInclude";
+import { Chapters, Quizzes } from "@/app/components/course/chapters";
+import CourseInclude from "@/app/components/course/courseInclude";
 import {
   Apple,
   CirclePlay,
@@ -18,18 +18,44 @@ import {
   Star,
   Users,
 } from "lucide-react";
-import Details from "../../components/course/details";
+import Details from "@/app/components/course/details";
+import { findCourseByCode } from "@/app/_model/courseModel";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { EnrollBtn } from "@/app/components/course/clientElems";
+import { auth } from "@/auth";
+import { Toaster } from "sonner";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
-const CoursePage = () => {
+const CoursePage = async ({ params }: { params: { courseId: string } }) => {
+  const res = await findCourseByCode(params.courseId).then((resp) =>
+    JSON.parse(JSON.stringify(resp))
+  );
+  if (!res || !res.published) {
+    redirect("/browse");
+  }
+
+  const sesh = await auth();
+  console.log("sa course sesh", sesh);
+
+  console.log(res, "Sesh", sesh);
+  let enrolled = false;
+  if (res.students.includes(sesh?.user!.id)) {
+    enrolled = true;
+  }
+
+  // if (!isPublisher) {
+  //   return redirect("/browse");
+  // }
+
   return (
     <>
       <div className="bg-white min-h-screen">
         {/* <DashNavi /> w-[calc(100%-200px)] ms-[200px]*/}
-
+        <Toaster />
         <div className=" w-full min-h-screen bg-[#0F0F0F] flex flex-col">
           {/* Profile */}
           <div className="w-full h-[60px] text-white flex flex-row px-3 items-center justify-between">
@@ -55,41 +81,125 @@ const CoursePage = () => {
 
           <div className="flex flex-row relative gap-5 h-[calc(100vh-60px)] ">
             {/* Left Side */}
-            <div className="w-2/12 rounded-tl-2xl flex flex-col py-4 ps-6 pe-3 gap-4">
+            <div className="w-2/12 rounded-tl-2xl flex flex-col py-4  gap-4">
               {/* Back */}
-              <div className="flex items-center relative">
-                <span
-                  className={
-                    "text-2xl text-[#777777] flex items-center gap-2 cursor-pointer"
-                  }
-                >
-                  <span className="w-5 translate-y-[-2px]">
-                    <BackIcon hex="#777777" />
+              <Link href={"/browse"} className="ps-6 pe-3">
+                <div className="flex items-center relative ">
+                  <span
+                    className={
+                      "text-2xl text-[#777777] flex items-center gap-2 cursor-pointer"
+                    }
+                  >
+                    <span className="w-5 translate-y-[-2px]">
+                      <BackIcon hex="#777777" />
+                    </span>
+                    <span className={"text-xl " + bebas.className}>
+                      Back to Courses
+                    </span>
                   </span>
-                  <span className={"text-xl " + bebas.className}>
-                    Back to Courses
-                  </span>
-                </span>
-              </div>
+                </div>
+              </Link>
               {/* Course Title */}
-              <div className="flex flex-col">
+              <div className="flex flex-col ps-6 pe-3">
                 <span
                   className={
-                    "text-[#555555] translate-y-[5px] " + bebas.className
+                    "text-[#555555] translate-y-[5px] text-sm " +
+                    bebas.className
                   }
                 >
                   Course Title
                 </span>
-                <span className={"text-[#cccccc] pe-8 " + poppSemi.className}>
-                  Fundamentals of UI/UX Design
+                <span
+                  className={
+                    "text-[#cccccc] pe-8 text-lg " + poppSemi.className
+                  }
+                >
+                  {res.title}
+                </span>
+                <span className={`${bebas.className} text-[#676767] text-lg`}>
+                  {res.code}
                 </span>
               </div>
               {/* Chapters */}
-              <div className="flex flex-col mt-5 relative gap-4 ">
-                <Chapters module="Course Introduction" />
-                <Chapters module="Designing Keypoints" />
-                <Chapters module="Basic Layouts Study" />
-                <Chapters module="Isa Pang Chapter II" />
+              <div className="flex flex-col mt-3 relative gap-4 ">
+                <span
+                  className={
+                    "text-[#555555] translate-y-[5px] text-base ps-6 pe-3 " +
+                    bebas.className
+                  }
+                >
+                  Chapters
+                </span>
+                <Link
+                  href={`/course/${res.code}`}
+                  className="flex gap-3 items-center ps-6 pe-3 mb-2"
+                >
+                  <span className="text-[#CCCCCC] text-start text-xs border border-[#CCCCCC] w-6 h-6 flex items-center justify-center rounded-[50%] p-3">
+                    O
+                  </span>
+                  <div
+                    className={
+                      "w-full text-[#CCCCCC] relative text-start " +
+                      popp.className
+                    }
+                  >
+                    <span>Course Introduction</span>
+                  </div>
+                </Link>
+                <Chapters
+                  courseCode={res.code}
+                  onTab={true}
+                  module="Designing Keypoints"
+                  num={1}
+                  access={enrolled}
+                />
+                <Chapters
+                  courseCode={res.code}
+                  onTab={true}
+                  module="Basic Layouts Study"
+                  num={2}
+                  access={enrolled}
+                />
+                <Chapters
+                  courseCode={res.code}
+                  onTab={true}
+                  module="Isa Pang Chapter II"
+                  num={3}
+                  access={enrolled}
+                />
+              </div>
+              {/* Quizzes */}
+              <div className="flex flex-col mt-3 relative gap-4 ">
+                <span
+                  className={
+                    "text-[#555555] translate-y-[5px] text-base ps-6 pe-3 " +
+                    bebas.className
+                  }
+                >
+                  Quizzes
+                </span>
+
+                <Quizzes
+                  onTab={false}
+                  courseCode={res.code}
+                  module="Summative Quiz <3"
+                  num={1}
+                  access={enrolled}
+                />
+                <Quizzes
+                  courseCode={res.code}
+                  onTab={false}
+                  module="Midterm Assessment"
+                  num={2}
+                  access={enrolled}
+                />
+                <Quizzes
+                  courseCode={res.code}
+                  onTab={false}
+                  module="Final Exam"
+                  num={3}
+                  access={enrolled}
+                />
               </div>
             </div>
 
@@ -113,7 +223,7 @@ const CoursePage = () => {
                     <span className="p-6 bg-emerald-500 rounded-full"></span>
                     <div className="flex flex-col">
                       <span className={"text-lg " + popp.className}>
-                        George Ogag
+                        {res.publisherName}
                       </span>
                       <span className={"text-[#555555] " + bebas.className}>
                         Publisher
@@ -136,30 +246,17 @@ const CoursePage = () => {
                   </div>
                 </div>
                 {/* Description */}
-                <div className="flex flex-col mt-8 gap-2">
-                  <span
-                    className={"text-2xl text-[#222222] " + bebas.className}
-                  >
+                <div className="flex flex-col mt-5 gap-2">
+                  <span className={"text-xl text-[#222222] " + bebas.className}>
                     Description
                   </span>
-                  <span
-                    className={"text-base text-[#222222] " + popp.className}
-                  >
-                    Welcome to the "UI/UX Design Fundamentals" course, your
-                    gateway to mastering the essential skills of user interface
-                    and user experience design. This comprehensive course is
-                    designed for anyone interested in creating intuitive,
-                    user-friendly digital products. Whether you're a beginner
-                    looking to enter the world of design or a professional
-                    seeking to enhance your skills, this course has something
-                    for you.
+                  <span className={"text-sm text-[#222222] " + popp.className}>
+                    {res.desc}
                   </span>
                 </div>
                 {/* Course Details */}
-                <div className="flex flex-col mt-3 gap-4 pb-6">
-                  <span
-                    className={"text-2xl text-[#333333] " + bebas.className}
-                  >
+                <div className="flex flex-col mt-2 gap-4 pb-6">
+                  <span className={"text-xl text-[#333333] " + bebas.className}>
                     Course Details
                   </span>
                   <div className="flex w-full gap-5">
@@ -175,12 +272,12 @@ const CoursePage = () => {
                     />
                     <Details
                       title="Skill Level"
-                      val="Beginner"
+                      val={res.diff}
                       icon={<Apple size={17} />}
                     />
                     <Details
                       title="LearnFlix Tier"
-                      val="Basic"
+                      val={res.tier}
                       icon={<Sparkles size={17} />}
                     />
                   </div>
@@ -198,7 +295,7 @@ const CoursePage = () => {
                     <span
                       className={"text-2xl text-[#333333] " + popp.className}
                     >
-                      ₱ 1,499
+                      {res.tier + " Tier"}
                     </span>
                     <span
                       className={
@@ -233,26 +330,11 @@ const CoursePage = () => {
                     />
                     <CourseInclude
                       icon={<Scroll size={17} />}
-                      desc="6 Articles"
-                    />
-                    <CourseInclude
-                      icon={<Scroll size={17} />}
-                      desc="8 Downloadable resources"
-                    />
-                    <CourseInclude
-                      icon={<Scroll size={17} />}
                       desc="Mobile Version"
                     />
                   </div>
                   {/* Button */}
-                  <button
-                    className={
-                      "rounded bg-[#50c350] text-white py-2 mt-6 " +
-                      popp.className
-                    }
-                  >
-                    Buy Now
-                  </button>
+                  <EnrollBtn course={res} userId={sesh?.user?.id!} />
                   {/* text */}
                   <span
                     className={
@@ -269,11 +351,13 @@ const CoursePage = () => {
                     Publisher
                   </span>
                   <div className="flex flex-row gap-3">
-                    <span className="bg-black rounded-full text-white px-4 py-2">
-                      P
+                    <span className="bg-black rounded-full text-white px-4 py-2 flex items-center">
+                      {res.publisherName[0]}
                     </span>
                     <div className="flex flex-col">
-                      <span className={"" + popp.className}>George Ogag</span>
+                      <span className={"" + popp.className}>
+                        {res.publisherName}
+                      </span>
                       <span
                         className={"text-sm  text-[#888888] " + bebas.className}
                       >

@@ -29,6 +29,19 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
+.customScroll::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #d6d6d6;
+}
+.customScroll::-webkit-scrollbar {
+  width: 7px;
+  background-color: #d6d6d6;
+}
+.customScroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #34c368;
+}
+
 .pill:hover .pillCir2 {
   @apply right-[-10%] w-[300%];
 }

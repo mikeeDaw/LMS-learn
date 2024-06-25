@@ -6,11 +6,13 @@ import { connectToDb } from "./app/_lib/mongoose";
 import { createUser, userModel } from "./app/_model/userModel";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
+  pages: {
+    error: "/login",
+  },
   callbacks: {
     async signIn({ account, user }) {
       await connectToDb();
-      console.log("Account: ", account);
-      console.log("Userxxx:", user);
+
       if (account && account.provider === "google") {
         const theUser = await userModel.findOne({ email: user.email });
         if (theUser) {
@@ -24,7 +26,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             );
             return true;
           } else {
-            console.log("hindi ka na bago");
+            console.log("Sa else");
             return true;
           }
         }
@@ -32,23 +34,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return true;
     },
     async session({ token, session }) {
-      console.log({
-        sessionToken: token,
-        session,
-      });
-
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
       return session;
     },
     async jwt({ token, user }) {
-      console.log("token:", token);
-
       if (user) {
         token.userData = user;
       }
-      // console.log("User:", user);
       return token;
     },
   },

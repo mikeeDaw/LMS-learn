@@ -14,13 +14,13 @@ const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const Details: React.FC<Props> = ({ title, val, icon }) => {
   return (
-    <div className="flex flex-col bg-white rounded-xl px-5 py-4 grow">
-      <span className={"text-xl text-[#888888] " + bebas.className}>
+    <div className="flex flex-col bg-white rounded-xl px-5 py-3 grow">
+      <span className={"text-base text-[#888888] " + bebas.className}>
         {title}
       </span>
       <div className="flex items-center gap-2 mt-1">
         <span className="text-[#333333] ">{icon}</span>
-        <span className={"text-base text-[#333333] " + poppSemi.className}>
+        <span className={"text-sm text-[#333333] " + poppSemi.className}>
           {val}
         </span>
       </div>

@@ -10,8 +10,8 @@ const page = async () => {
   await new Promise((res) => setTimeout(res, 1000));
   return (
     <>
+      <Navbar />
       <div className="h-screen bg-orange-100 flex justify-center items-center relative overflow-hidden">
-        <Navbar />
         {/* Black Area  */}
         <div className="relative w-full lg:w-9/12 xl:w-4/6 h-full bg-black flex items-end ">
           {/* Circle Stuff */}
@@ -104,6 +104,7 @@ const page = async () => {
           </button>
         </div> */}
       </div>
+      <div className="h-screen bg-cyan-200"></div>
     </>
   );
 };

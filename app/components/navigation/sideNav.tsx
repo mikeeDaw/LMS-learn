@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import {
+  Bolt,
   Brain,
   ChevronsLeft,
   Flag,
@@ -17,21 +18,25 @@ const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
-const NavigationBar = () => {
+interface Props {
+  name: string;
+}
+
+const NavigationBar: React.FC<Props> = ({ name }) => {
   const [expand, setExpand] = useState(true);
 
   return (
     <div
       className={
         "bg-black flex flex-col h-screen text-[#BBBBBB] transition-all border-r border-[#888888] " +
-        (expand ? "w-[220px] " : "w-[90px] ") +
+        (expand ? "min-w-[210px] " : "min-w-[90px] ") +
         popp.className
       }
     >
       {/* Nav Heading */}
       <div
         className={
-          "border-b border-[#888888] items-center w-full flex px-5 py-4 " +
+          "border-b border-[#888888] items-center w-full flex px-5 py-3 " +
           (expand ? "justify-between" : "justify-center")
         }
       >
@@ -74,7 +79,7 @@ const NavigationBar = () => {
                     (expand ? " " : " w-0 h-0")
                   }
                 >
-                  Jack Stone
+                  {name}
                 </span>
                 <span
                   className={
@@ -92,35 +97,28 @@ const NavigationBar = () => {
           <div
             className={
               "flex flex-col border-b pb-8 border-[#8888887F] " +
-              (expand ? "gap-2" : "gap-4")
+              (expand ? "gap-0" : "gap-2")
             }
           >
-            <span
-              className={
-                "text-lg translate-y-1 mb-2 px-4 overflow-hidden text-nowrap " +
-                bebas.className +
-                (expand ? "" : " w-0 h-0")
-              }
-            >
-              ANALYTICS
-            </span>
             <NavItem
               expand={expand}
-              icon={<Home size={expand ? 23 : 26} />}
+              icon={<Home size={expand ? 21 : 24} />}
               textStr="Dashboard"
+              to="#"
             />
             <NavItem
               expand={expand}
-              icon={<Flag size={expand ? 23 : 26} />}
-              textStr="Reports"
+              icon={<Flag size={expand ? 21 : 24} />}
+              textStr="My Courses"
+              to="/mycourses"
             />
           </div>
 
-          {/* Application */}
+          {/* Learn */}
           <div
             className={
               "flex flex-col border-b pb-8 border-[#8888887F] " +
-              (expand ? "gap-2" : "gap-4")
+              (expand ? "gap-0" : "gap-2")
             }
           >
             <span
@@ -130,27 +128,36 @@ const NavigationBar = () => {
                 (expand ? "" : " w-0 h-0")
               }
             >
-              Application
+              Learn
             </span>
             <NavItem
               expand={expand}
-              icon={<GraduationCap size={expand ? 25 : 28} />}
-              textStr="Courses"
+              icon={<GraduationCap size={expand ? 22 : 24} />}
+              textStr="Browse"
+              to="/browse"
             />
             <NavItem
               expand={expand}
-              icon={<Brain size={expand ? 23 : 26} />}
+              icon={<Brain size={expand ? 21 : 24} />}
               textStr="Students"
+              to="#"
             />
             <NavItem
               expand={expand}
-              icon={<Gem size={expand ? 23 : 26} />}
-              textStr="Kahit Ano"
+              icon={<Gem size={expand ? 21 : 24} />}
+              textStr="Upgrade"
+              to="/upgrade"
             />
           </div>
         </div>
         {/* Bottom Area */}
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
+          <NavItem
+            expand={expand}
+            icon={<Bolt size={expand ? 21 : 24} />}
+            textStr="Settings"
+            to="/settings"
+          />
           <LogoutBtn expand={expand} />
         </div>
       </div>
