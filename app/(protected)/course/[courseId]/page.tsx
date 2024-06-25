@@ -366,8 +366,8 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                     </div>
                   </div>
                   <span className={"text-sm text-[#666666] " + popp.className}>
-                    Hi! I am George, I'm 29, a freelance Graphic Designer and 3D
-                    Artist with around 5 years of experience in animation,
+                    Hi! I am George, I am 29, a freelance Graphic Designer and
+                    3D Artist with around 5 years of experience in animation,
                     entertainment, and gaming industry.
                   </span>
                   <div className="flex flex-col gap-1.5">

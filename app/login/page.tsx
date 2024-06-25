@@ -52,8 +52,8 @@ const LoginPage = async () => {
             <span
               className={"text-sm text-center text-[#575757] " + popp.className}
             >
-              Welcome to our learning community! Whether you're here to learn or
-              explore, you're in the right place.
+              Welcome to our learning community! Whether you are here to learn
+              or explore, you are in the right place.
             </span>
 
             {/* Login Options */}
@@ -73,7 +73,7 @@ const LoginPage = async () => {
             {/* Sign In */}
             <div className="flex gap-2 items-center mt-3 ">
               <span className={"text-xs " + popp.className}>
-                Don't Have an Account?
+                Don&apos;t Have an Account?
               </span>
               <Link href={"/register"} data-testid="signup-button">
                 <span

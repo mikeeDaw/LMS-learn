@@ -17,11 +17,10 @@ export default {
         const validated = LoginSchema.safeParse(credentials);
 
         if (validated.success) {
-          await connectToDb();
           const { email, password } = validated.data;
 
           const resp = await fetch(
-            `${process.env.NEXTAUTH_URL}/api/mongoose/findUser`,
+            `https://learnflix-git-smscreen-mikeedaws-projects.vercel.app/api/mongoose/findUser`,
             {
               method: "POST",
               body: JSON.stringify({ email: email }),

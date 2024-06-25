@@ -44,6 +44,7 @@ const page = async () => {
               {courses.map((cors, idx) => {
                 return (
                   <div
+                    key={`CourseList${idx}`}
                     className={`w-60 h-48 bg-black rounded-2xl bg-[url('/assets/images/waves.png')] bg-cover border-4 border-white shrink-0 ${
                       idx === 0 && courses.length > 1 ? "-translate-y-20" : ""
                     }`}
