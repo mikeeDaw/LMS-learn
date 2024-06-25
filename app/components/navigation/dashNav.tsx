@@ -20,9 +20,9 @@ const DashNavi = () => {
       </span>
       {/* Menus */}
       <div className="flex flex-col mt-8 gap-1">
-        <DashNavItem label="Dashboard" children={<DashIcon hex="#FFF" />} />
-        <DashNavItem label="Courses" children={<CourseIcon hex="#FFF" />} />
-        <DashNavItem label="My Learning" children={<LearnIcon hex="#FFF" />} />
+        <DashNavItem label="Dashboard" icon={<DashIcon hex="#FFF" />} />
+        <DashNavItem label="Courses" icon={<CourseIcon hex="#FFF" />} />
+        <DashNavItem label="My Learning" icon={<LearnIcon hex="#FFF" />} />
       </div>
     </div>
   );
