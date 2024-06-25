@@ -17,7 +17,6 @@ export default {
         const validated = LoginSchema.safeParse(credentials);
 
         if (validated.success) {
-          await connectToDb();
           const { email, password } = validated.data;
 
           const resp = await fetch(
