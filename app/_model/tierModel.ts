@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const tierSchema = new Schema(
   {
     tierLabel: {
-      type: "FREE" || "PREMIUM" || "ASTRO",
+      type: String,
+      enum: ["FREE", "PREMIUM", "ASTRO"],
       unique: true,
       required: true,
     },
@@ -16,5 +17,9 @@ const tierSchema = new Schema(
 );
 
 const tierModel = mongoose.models?.tiers || mongoose.model("tiers", tierSchema);
+
+export const findTierByLbl = (lbl: string) =>
+  tierModel.findOne({ tierLabel: lbl });
+export const getAllTier = () => tierModel.find();
 
 export default tierModel;

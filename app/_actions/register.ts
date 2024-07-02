@@ -40,6 +40,7 @@ export const regAction = async (values: z.infer<typeof RegSchema>) => {
       password: hashPass,
       userRole: "USER",
       courses: [],
+      tier: "FREE",
     });
     console.log("tumuloy");
   } catch (error) {

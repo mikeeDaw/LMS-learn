@@ -6,7 +6,12 @@ import {
   findCourses,
   removeStudent,
 } from "../_model/courseModel";
-import { addCourse, findUserbyId, removeCourse } from "../_model/userModel";
+import {
+  addCourse,
+  findUserbyEmail,
+  findUserbyId,
+  removeCourse,
+} from "../_model/userModel";
 
 export const enrollToCourse = async (code: string, uid: string) => {
   await connectToDb();
@@ -29,11 +34,11 @@ export const enrollToCourse = async (code: string, uid: string) => {
   }
 };
 
-export const getCoursesOfUser = async (uid: string) => {
+export const getCoursesOfUser = async (email: string) => {
   await connectToDb();
 
-  const user = await findUserbyId(uid);
-
+  const user = await findUserbyEmail(email);
+  console.log(user);
   if (user.courses && user.courses.length !== 0) {
     const records = await findCourses(user.courses);
     return records;

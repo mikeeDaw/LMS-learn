@@ -27,7 +27,7 @@ export default {
             }
           );
           const user = await resp.json();
-
+          console.log("student", user);
           if (!user || !user.password) return null;
 
           const passMatch = await bcrypt.compare(password, user.password);

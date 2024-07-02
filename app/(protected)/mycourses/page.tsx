@@ -14,7 +14,7 @@ const page = async () => {
   console.log(session);
   const name = session?.user!.name!.split(" ")!;
 
-  const courses = await getCoursesOfUser(session?.user?.id!);
+  const courses = await getCoursesOfUser(session?.user?.email!);
 
   return (
     <div className="h-screen bg-white flex">

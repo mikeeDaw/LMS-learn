@@ -15,12 +15,12 @@ export default auth((req) => {
   const isLogged = !!req.auth;
 
   const isAuthPrefix = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isAPIdb = nextUrl.pathname.startsWith(apiDB);
+  const isAPI = nextUrl.pathname.startsWith("/api");
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   // console.log("middle", isPublicRoute, isAuthRoute, "Logged:", isLogged);
 
-  if (isAuthPrefix || isAPIdb) {
+  if (isAuthPrefix || isAPI) {
     return;
   }
   if (isAuthRoute) {

@@ -1,7 +1,10 @@
+"use client";
 import { ChevronsDown, CircleCheck, Sparkle } from "lucide-react";
 import React from "react";
 import { Bebas_Neue, Poppins } from "next/font/google";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { getTierNum } from "@/app/_lib/helpers";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
@@ -14,6 +17,9 @@ interface TierProps {
   details: string[];
   focus: boolean;
   setFocus: React.Dispatch<React.SetStateAction<string>>;
+  setLoad: React.TransitionStartFunction;
+  email: string;
+  userTier: string;
 }
 
 export const Tier: React.FC<TierProps> = ({
@@ -23,7 +29,26 @@ export const Tier: React.FC<TierProps> = ({
   details,
   focus,
   setFocus,
+  setLoad,
+  email,
+  userTier,
 }) => {
+  const router = useRouter();
+  const handleClick = async () => {
+    setLoad(async () => {
+      const resp = await fetch("/api/stripe", {
+        method: "POST",
+        body: JSON.stringify({ user_email: email, tier: name.toUpperCase() }),
+      });
+
+      const url = await resp.json();
+      console.log(url.url);
+      router.push(url.url);
+    });
+  };
+
+  const canUpgrade = getTierNum(userTier) < getTierNum(name);
+  console.log(canUpgrade, getTierNum(userTier), getTierNum(name));
   return (
     <div
       className={`w-full ${
@@ -49,7 +74,7 @@ export const Tier: React.FC<TierProps> = ({
               Current Plan
             </motion.span>
           )}
-          {focus && !current && (
+          {focus && !current && canUpgrade && (
             <motion.span
               initial={{ opacity: 0 }}
               animate={{
@@ -57,6 +82,7 @@ export const Tier: React.FC<TierProps> = ({
                 transition: { delay: 0.2, duration: 0.3 },
               }}
               className={`${bebas.className} text-lg flex items-center gap-2 border border-black ps-4 pe-2.5 py-0.5 rounded-full hover:bg-black hover:text-white transition-all getBtn duration-300`}
+              onClick={handleClick}
             >
               <span className="translate-y-[1.5px]"> Get Now</span>
               <span className="getBtn-hover:b">

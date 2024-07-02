@@ -14,4 +14,9 @@ const stripeCusModel =
   mongoose.models?.stripeCustomers ||
   mongoose.model("stripeCustomers", stripeCustomer);
 
+export const findStripeCustomer = (uid: string) =>
+  stripeCusModel.findOne({ userId: uid });
+export const createStripeCustomer = (uid: string, stripeUID: string) =>
+  stripeCusModel.create({ userId: uid, customerId: stripeUID });
+
 export default stripeCusModel;

@@ -1,4 +1,5 @@
 import { findCourseByCode } from "@/app/_model/courseModel";
+import { findUserbyEmail } from "@/app/_model/userModel";
 import { Chapters, Quizzes } from "@/app/components/course/chapters";
 import { auth } from "@/auth";
 import BackIcon from "@/public/assets/clientIcons/backIcon";
@@ -25,11 +26,10 @@ const ChapterPage = async ({
   }
 
   const sesh = await auth();
+  const user = await findUserbyEmail(sesh?.user?.email!);
 
-  console.log(res, "Sesh", sesh);
-  console.log(params);
   let enrolled = false;
-  if (res.students.includes(sesh?.user!.id)) {
+  if (res.students.includes(user.id)) {
     enrolled = true;
   } else {
     redirect(`/course/${params.courseId}`);

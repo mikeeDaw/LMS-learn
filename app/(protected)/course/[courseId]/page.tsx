@@ -25,6 +25,7 @@ import Link from "next/link";
 import { EnrollBtn } from "@/app/components/course/clientElems";
 import { auth } from "@/auth";
 import { Toaster } from "sonner";
+import { findUserbyEmail } from "@/app/_model/userModel";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
@@ -39,17 +40,13 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   }
 
   const sesh = await auth();
-  console.log("sa course sesh", sesh);
+  const stud = await findUserbyEmail(sesh?.user?.email!);
 
   console.log(res, "Sesh", sesh);
   let enrolled = false;
-  if (res.students.includes(sesh?.user!.id)) {
+  if (res.students.includes(stud.id)) {
     enrolled = true;
   }
-
-  // if (!isPublisher) {
-  //   return redirect("/browse");
-  // }
 
   return (
     <>
@@ -334,7 +331,11 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
                     />
                   </div>
                   {/* Button */}
-                  <EnrollBtn course={res} userId={sesh?.user?.id!} />
+                  <EnrollBtn
+                    course={res}
+                    userId={stud.id}
+                    userTier={stud.tier}
+                  />
                   {/* text */}
                   <span
                     className={

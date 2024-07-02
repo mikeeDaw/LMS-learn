@@ -10,3 +10,18 @@ export interface Course {
   students: string[];
   published: false;
 }
+
+export interface User {
+  name: string;
+  email: string;
+  password: string;
+  userRole: string;
+  courses: string[];
+  tier: string;
+}
+
+export interface Tier {
+  tierLabel: string;
+  price: number;
+  features: string[];
+}

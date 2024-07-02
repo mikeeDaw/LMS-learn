@@ -1,3 +1,6 @@
+import { connectToDb } from "@/app/_lib/mongoose";
+import { getAllTier } from "@/app/_model/tierModel";
+import { findUserbyEmail } from "@/app/_model/userModel";
 import NavigationBar from "@/app/components/navigation/sideNav";
 import TierList from "@/app/components/upgrade/tierList";
 import { auth } from "@/auth";
@@ -12,6 +15,10 @@ const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 const UpgradePage = async () => {
   const session = await auth();
   const name = session?.user!.name!.split(" ")!;
+
+  await connectToDb();
+  const user = await findUserbyEmail(session?.user?.email!);
+  const tiers = await getAllTier();
   return (
     <div className=" h-screen flex">
       {/* Nav */}
@@ -22,7 +29,7 @@ const UpgradePage = async () => {
         <div className="w-full px-6 h-[60px] text-black flex flex-row items-center justify-between">
           {/* Title */}
           <span className={"text-3xl translate-y-1 " + bebas.className}>
-            Learnflix Tier
+            Learnflix Tear
           </span>
         </div>
         <div className="grow w-full flex">
@@ -46,7 +53,11 @@ const UpgradePage = async () => {
           </div>
           {/* Tiers */}
           <div className="flex flex-col w-1/2 pe-16 pb-8 gap-5">
-            <TierList />
+            <TierList
+              email={session?.user?.email ?? "none"}
+              account={JSON.parse(JSON.stringify(user))}
+              tiers={tiers}
+            />
           </div>
         </div>
       </div>
