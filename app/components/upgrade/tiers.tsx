@@ -59,6 +59,7 @@ export const Tier: React.FC<TierProps> = ({
       onClick={() => {
         setFocus(name.toUpperCase());
       }}
+      data-testid={`tier-${name}`}
     >
       <div className="flex flex-col w-full gap-3">
         <div className={`w-full flex justify-start`}>
@@ -83,6 +84,7 @@ export const Tier: React.FC<TierProps> = ({
               }}
               className={`${bebas.className} text-lg flex items-center gap-2 border border-black ps-4 pe-2.5 py-0.5 rounded-full hover:bg-black hover:text-white transition-all getBtn duration-300`}
               onClick={handleClick}
+              data-testid={`purchase-tier-${name}`}
             >
               <span className="translate-y-[1.5px]"> Get Now</span>
               <span className="getBtn-hover:b">
