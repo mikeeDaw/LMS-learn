@@ -136,7 +136,7 @@ const TierList: React.FC<Props> = ({ email, account, tiers }) => {
         </motion.div>
       )}
       {/* Free Tier */}
-      {tiers.map((item) => (
+      {tiers.map((item, idx) => (
         <Tier
           current={account.tier === item.tierLabel}
           price={item.price}
@@ -147,6 +147,7 @@ const TierList: React.FC<Props> = ({ email, account, tiers }) => {
           details={item.features}
           email={email}
           userTier={account.tier}
+          key={`myTier${idx}`}
         />
       ))}
 

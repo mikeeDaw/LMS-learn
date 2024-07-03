@@ -29,7 +29,7 @@ const UpgradePage = async () => {
         <div className="w-full px-6 h-[60px] text-black flex flex-row items-center justify-between">
           {/* Title */}
           <span className={"text-3xl translate-y-1 " + bebas.className}>
-            Learnflix Tear
+            Learnflix Tier
           </span>
         </div>
         <div className="grow w-full flex">
@@ -56,7 +56,7 @@ const UpgradePage = async () => {
             <TierList
               email={session?.user?.email ?? "none"}
               account={JSON.parse(JSON.stringify(user))}
-              tiers={tiers}
+              tiers={JSON.parse(JSON.stringify(tiers))}
             />
           </div>
         </div>
