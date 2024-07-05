@@ -147,6 +147,7 @@ const TierList: React.FC<Props> = ({ email, account, tiers }) => {
           details={item.features}
           email={email}
           userTier={account.tier}
+          key={Math.floor(Math.random() * 999)}
         />
       ))}
 
