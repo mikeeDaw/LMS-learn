@@ -60,6 +60,7 @@ export const Tier: React.FC<TierProps> = ({
         setFocus(name.toUpperCase());
       }}
       data-testid={`tier-${name}`}
+      key={`LearnTier_${name}`}
     >
       <div className="flex flex-col w-full gap-3">
         <div className={`w-full flex justify-start`}>
