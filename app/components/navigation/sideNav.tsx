@@ -138,15 +138,15 @@ const NavigationBar: React.FC<Props> = ({ name }) => {
             />
             <NavItem
               expand={expand}
-              icon={<Brain size={expand ? 21 : 24} />}
-              textStr="Students"
-              to="#"
-            />
-            <NavItem
-              expand={expand}
               icon={<Gem size={expand ? 21 : 24} />}
               textStr="Upgrade"
               to="/upgrade"
+            />
+            <NavItem
+              expand={expand}
+              icon={<Brain size={expand ? 21 : 24} />}
+              textStr="Profile"
+              to="#"
             />
           </div>
         </div>

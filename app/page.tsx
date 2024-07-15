@@ -2,12 +2,42 @@ import React from "react";
 import { Bebas_Neue, Poppins, Montserrat } from "next/font/google";
 import Navbar from "./components/navigation/navbar";
 import StudyAnim from "./components/lottie/studyAnim";
+import { CircleCheck } from "lucide-react";
+import CourseFeat from "./components/landing/courseFeat";
+import Link from "next/link";
+import TierLanding from "./components/landing/tierPill";
+import { connectToDb } from "./_lib/mongoose";
+import { getAllTier } from "./_model/tierModel";
 
 const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
+const poppSemi = Poppins({ weight: "600", subsets: ["latin"] });
 
 const page = async () => {
   await new Promise((res) => setTimeout(res, 1000));
+  await connectToDb();
+  const tiers = await getAllTier();
+
+  const additionalDet = [
+    {
+      subtext: "Free Plan for all users.",
+      color: "bg-[#7fff4d]",
+      bullCol: "#7fff4d",
+      btnText: "Get Started for Free",
+    },
+    {
+      subtext: "Ideal for eager learners.",
+      color: "bg-[#edff48]",
+      bullCol: "#edff48",
+      btnText: "Get Premium Now",
+    },
+    {
+      subtext: "For someone in pursuit of knowledge .",
+      color: "bg-[#48ffdd]",
+      bullCol: "#48ffdd",
+      btnText: "Be an Astro Today",
+    },
+  ];
   return (
     <>
       <Navbar />
@@ -18,11 +48,6 @@ const page = async () => {
           <span className="p-[55%] lg:p-[50%] xl:p-[45%] border [border-image:linear-gradient(180deg,#FFFFFF,#000) 1] opacity-70 absolute bottom-[-20%] left-[-15%] lg:left-[-20%] lg:bottom-[-30%] z-20 rounded-full " />
           <span className="lg:w-[400px] lg:h-[400px] xl:w-[480px] xl:h-[480px] bg-[linear-gradient(160deg,_#b8ffb3,_#084304)] z-20 absolute right-0 top-1/2 translate-x-[50%] translate-y-[-35%] rounded-full bg-white">
             <div className="relative w-full h-full">
-              {/* <img
-                className="absolute top-[-20%] right-[-200px] "
-                src="/assets/gradcap.png"
-                alt="Graduation Cap"
-              /> */}
               <div className="absolute bottom-[-40px] w-[600px] right-[-100px]">
                 <StudyAnim />
               </div>
@@ -32,9 +57,9 @@ const page = async () => {
           <div className="relative w-full h-4/6 mb-14 flex flex-col pe-[100px] lg:pe-[300px] ps-16 gap-5 ">
             {/* Title and subtitle */}
             <span className={"text-6xl text-white " + bebas.className}>
-              Sample Title Dito Lorem Ipsum Dolomite{" "}
+              Unlock your learning potential and elevate your{" "}
               <span className="bg-[linear-gradient(90deg,_#b8ffb3,_#62e759,_#24a91c)] text-transparent bg-clip-text">
-                Bullshit
+                Knowledge
               </span>
             </span>
             <span
@@ -42,8 +67,9 @@ const page = async () => {
                 "text-lg text-white pe-32 text-justify " + popp.className
               }
             >
-              nteger ac dolor eu velit rutrum volutpat. Duis elementum, nulla
-              vel imperdiet mollis, ligula enim mollis mi, a vehicula.
+              On-demand learning materials you can access anywhere in the world.
+              World-class resources and High-Quality Instructors within your
+              reach.
             </span>
 
             {/* Buttons */}
@@ -68,9 +94,9 @@ const page = async () => {
                   popp.className
                 }
               >
-                <span className="font-bold"> for your business </span>
+                <span className="font-bold"> for your education </span>
                 <span className={"text-xs w-4/6 " + popp.className}>
-                  our service are designed with the modern business in mind
+                  our service are designed with the modern standards in mind
                 </span>
 
                 <div className="bg-[#62e759] w-full h-full absolute z-[-10] top-0 left-16 rounded-2xl">
@@ -89,22 +115,35 @@ const page = async () => {
           <span className="p-[55%] z-0 border [border-image:linear-gradient(180deg,#FFFFFF,#000) 1] absolute right-[-40%] top-[-20%] z-10 rounded-full " />
         </div>
         <div className="w-full h-full absolute top-0 bg-[url(/assets/grid2.svg)] opacity-10 "></div>
-
-        {/* <div
-          className={
-            bebas.className +
-            "p-3 w-4/6 bg-lime-300 flex flex-col items-center gap-6"
-          }
-        >
-          <span className={bebas.className + " text-6xl text-center"}>
-            Next JS Sample Layout dolor sit, consectetur adipiscing elit. Aenean
-          </span>
-          <button className="px-3 py-2 bg-red-300 border border-red-300 rounded-lg">
-            Click Me!
-          </button>
-        </div> */}
       </div>
-      <div className="h-screen bg-cyan-200"></div>
+      {/* Area 2 */}
+      <div className="h-screen w-full bg-[#0f0f0f] relative flex flex-col justify-center items-center pt-[15vh] pb-12 gap-10">
+        <div className="w-full flex flex-col items-center gap-2">
+          <div className={`text-white text-4xl ${bebas.className}`}>
+            Choose your ideal learning plan
+          </div>
+          <div className={`w-1/2 text-[#BBBBBB] text-center px-12`}>
+            Start your journey with a pocket-friendly plans. Elevate your
+            knowledge with rich educational materials from our intelligent
+            instructors.
+          </div>
+        </div>
+        <div className="w-3/4 grow flex justify-center gap-10">
+          {tiers.map((tier, idx) => (
+            <TierLanding
+              label={tier.tierLabel}
+              price={tier.price}
+              subtext={additionalDet[idx].subtext}
+              features={tier.features}
+              buttonText={additionalDet[idx].btnText}
+              bgColor={`${additionalDet[idx].color}`}
+              bulletCol={additionalDet[idx].bullCol}
+              key={`LandPlan${idx}`}
+            />
+          ))}
+        </div>
+        <div className="w-full h-full absolute top-0 bg-[url(/assets/grid2.svg)] opacity-10 "></div>
+      </div>
     </>
   );
 };

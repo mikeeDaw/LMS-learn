@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import NavItem from "./navitem";
 import { Bebas_Neue, Poppins } from "next/font/google";
 
@@ -6,33 +7,51 @@ const bebas = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 const popp = Poppins({ weight: "400", subsets: ["latin"] });
 
 const Navbar = () => {
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = (e: any) => {
+      if (window.scrollY < 100) setScroll(false);
+      else setScroll(true);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <>
-      <div className="fixed top-5 w-full py-3 px-10 flex flex-row justify-between items-center z-40">
+      <div
+        className={`fixed top-0 w-full pb-4 px-10 flex flex-row justify-between items-center z-40 pt-5 transition-all duration-300 ${
+          scroll ? "bg-[#000000CC]" : "bg-transparent"
+        }`}
+      >
         <div className={"text-white text-3xl " + bebas.className}>
           <span className="bg-[linear-gradient(90deg,_#b8ffb3,_#62e759,_#24a91c)] text-transparent bg-clip-text text-4xl">
             Learn
           </span>
           flix
         </div>
-        <div className="flex gap-1">
+        <div className="flex gap-3">
           <NavItem
-            text="Link1"
+            text="Home"
             linkTo="#"
             styling={"px-3 text-lg " + popp.className}
           />
           <NavItem
-            text="Link2"
+            text="About"
             linkTo="#"
             styling={"px-3 text-lg " + popp.className}
           />
           <NavItem
-            text="Link3"
+            text="Plans"
             linkTo="#"
             styling={"px-3 text-lg " + popp.className}
           />
           <NavItem
-            text="Link4"
+            text="Contact Us"
             linkTo="#"
             styling={"px-3 text-lg " + popp.className}
           />
