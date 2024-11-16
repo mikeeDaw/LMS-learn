@@ -16,8 +16,10 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
+@layer base {
+  body {
+    color: #000;
+  }
 }
 
 .scrollbar-hide::-webkit-scrollbar {

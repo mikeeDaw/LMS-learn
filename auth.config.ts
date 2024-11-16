@@ -20,7 +20,7 @@ export default {
           const { email, password } = validated.data;
 
           const resp = await fetch(
-            `https://learnflix-iota.vercel.app/api/mongoose/findUser`,
+            `${process.env.NEXTAUTH_URL}/api/mongoose/findUser`,
             {
               method: "POST",
               body: JSON.stringify({ email: email }),

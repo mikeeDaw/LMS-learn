@@ -41,9 +41,9 @@ const page = async () => {
   return (
     <>
       <Navbar />
-      <div className="h-screen bg-orange-100 flex justify-center items-center relative overflow-hidden">
+      <div className="h-screen flex justify-center items-center relative overflow-hidden">
         {/* Black Area  */}
-        <div className="relative w-full lg:w-9/12 xl:w-4/6 h-full bg-black flex items-end ">
+        <div className="relative w-full lg:w-9/12 xl:w-4/6 h-full bg-black flex items-end">
           {/* Circle Stuff */}
           <span className="p-[55%] lg:p-[50%] xl:p-[45%] border [border-image:linear-gradient(180deg,#FFFFFF,#000) 1] opacity-70 absolute bottom-[-20%] left-[-15%] lg:left-[-20%] lg:bottom-[-30%] z-20 rounded-full " />
           <span className="lg:w-[400px] lg:h-[400px] xl:w-[480px] xl:h-[480px] bg-[linear-gradient(160deg,_#b8ffb3,_#084304)] z-20 absolute right-0 top-1/2 translate-x-[50%] translate-y-[-35%] rounded-full bg-white">
@@ -54,7 +54,7 @@ const page = async () => {
             </div>
           </span>
           {/* Content Area */}
-          <div className="relative w-full h-4/6 mb-14 flex flex-col pe-[100px] lg:pe-[300px] ps-16 gap-5 ">
+          <div className="relative w-full h-fit mb-16 flex flex-col pe-[100px] lg:pe-[300px] ps-16 gap-5 ">
             {/* Title and subtitle */}
             <span className={"text-6xl text-white " + bebas.className}>
               Unlock your learning potential and elevate your{" "}
@@ -73,10 +73,10 @@ const page = async () => {
             </span>
 
             {/* Buttons */}
-            <div className="flex mt-12 gap-9 items-center">
+            <div className="flex mt-9 mb-4 gap-9 items-center z-30">
               <button
                 className={
-                  "bg-[linear-gradient(90deg,_#3bcd32,_#1d9916,_#086502)] font-bold py-3 px-7 rounded-lg text-white " +
+                  "bg-[linear-gradient(90deg,_#3bcd32,_#1d9916,_#086502)] font-bold py-3 px-7 rounded-lg text-white hover:scale-110 transition-all duration-200 " +
                   popp.className
                 }
               >
@@ -87,7 +87,7 @@ const page = async () => {
               </button>
             </div>
             {/* Bottom Cards */}
-            <div className="absolute bottom-0 z-10 flex w-[calc(100%-350px)]">
+            <div className="z-10 flex w-full">
               <div
                 className={
                   "relative bg-white h-full w-6/12 flex flex-col pt-4 pb-6 ps-7 pe-5 rounded-2xl gap-3 " +

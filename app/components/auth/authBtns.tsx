@@ -182,7 +182,7 @@ const CredentialLogIn = () => {
               "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-14 " +
               (logErr || errors.email != undefined
                 ? "border-[#ec7070] "
-                : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+                : "border-[#575757] focus:border-[#44a735] focus:text-[#44a735] ") +
               popp.className
             }
             type="text"
@@ -213,7 +213,7 @@ const CredentialLogIn = () => {
               "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-14 " +
               (logErr || errors.password != undefined
                 ? "border-[#ec7070] "
-                : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+                : "border-[#575757] focus:border-[#44a735] focus:text-[#44a735] ") +
               popp.className
             }
             type="password"
@@ -365,7 +365,7 @@ const RegisterUser = () => {
                   "border w-full py-2.5 text-xs outline-none pe-3 rounded-lg ps-10 " +
                   (errors.fName != undefined
                     ? "border-[#ec7070] "
-                    : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+                    : "border-[#575757] focus:border-[#44a735] focus:text-[#44a735] ") +
                   popp.className
                 }
                 type="text"
@@ -394,7 +394,7 @@ const RegisterUser = () => {
                   "border w-full py-2.5 text-xs outline-none pe-3 rounded-lg ps-10 " +
                   (errors.lName != undefined
                     ? "border-[#ec7070] "
-                    : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+                    : "border-[#575757] focus:border-[#44a735] focus:text-[#44a735] ") +
                   popp.className
                 }
                 type="text"
@@ -424,7 +424,7 @@ const RegisterUser = () => {
                 "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-10 " +
                 (errors.email != undefined
                   ? "border-[#ec7070] "
-                  : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+                  : "border-[#575757] focus:border-[#44a735] focus:text-[#44a735] ") +
                 popp.className
               }
               type="text"
@@ -453,7 +453,7 @@ const RegisterUser = () => {
                 "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-10 " +
                 (errors.password != undefined
                   ? "border-[#ec7070] "
-                  : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+                  : "border-[#575757] focus:border-[#44a735] focus:text-[#44a735] ") +
                 popp.className
               }
               type="password"
@@ -482,7 +482,7 @@ const RegisterUser = () => {
                 "border py-3 w-full text-xs outline-none pe-3 rounded-lg ps-10 " +
                 (errors.confPass != undefined
                   ? "border-[#ec7070] "
-                  : "border-[#575757] focus:border-[#6bc85d] focus:text-[#6bc85d] ") +
+                  : "border-[#575757] focus:border-[#44a735] focus:text-[#44a735] ") +
                 popp.className
               }
               type="password"
